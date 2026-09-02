@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.email == 'admin@vmracademy.co.za' || 
+         request.auth.token.role == 'admin');
+    }
+
+    // Public educational resources and reference collections
+    match /resources/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /programmes/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /milestones/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /partners/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /opportunities/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /salesIncentives/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User accounts
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update, delete: if isOwner(userId) || isAdmin();
+    }
+
+    // Student Profiles
+    match /studentProfiles/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    // Applications
+    match /applications/{appId} {
+      allow read: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Participants
+    match /participants/{participantId} {
+      allow read: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Progress
+    match /participantProgress/{progressId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Sponsorships
+    match /sponsorships/{sponsorshipId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Job Shadows
+    match /jobShadows/{jobShadowId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+}

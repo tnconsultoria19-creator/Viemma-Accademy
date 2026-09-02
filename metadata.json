@@ -1,0 +1,7 @@
+{
+  "name": "VMR Academy - Tourism Careers & Youth Development",
+  "description": "Viemma Tours Academy - Tourism career information, statutory licensing roadmaps, and sponsored youth development programme for Cape Town & the Atlantic Seaboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

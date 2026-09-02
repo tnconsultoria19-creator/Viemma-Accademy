@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Tourism Career Portal - Viemma Youth</title>
+    
+    <!-- Elegant Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#1A3326', 
+                            light: '#FCFAF8', 
+                            accent: '#D4AF37',
+                            soft: '#E8F0EC', 
+                            youth: '#F59E0B'
+                        }
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
+                        'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        'float': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; color: #1A3326; overflow-x: hidden; background-color: #F8FAFC; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .modal-active { opacity: 1; visibility: visible; transform: scale(1); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-inactive { opacity: 0; visibility: hidden; transform: scale(0.95); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .dashboard-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .dashboard-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-ring { background: conic-gradient(#D4AF37 35%, #e5e7eb 0); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; }
+        .progress-ring-inner { background-color: white; border-radius: 50%; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        #toast-container { z-index: 9999; }
+        .toast-enter { opacity: 0; transform: translateY(-20px); }
+        .toast-enter-active { opacity: 1; transform: translateY(0); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .toast-exit { opacity: 1; transform: translateY(0); }
+        .toast-exit-active { opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .auth-input:focus { border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); outline: none; }
+        .animate-confetti { position: absolute; width: 10px; height: 10px; background-color: #D4AF37; animation: fall 3s linear forwards; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+
+    <div id="toast-container" class="fixed top-5 right-5 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Sidebar -->
+    <aside class="hidden md:flex flex-col w-64 lg:w-72 bg-brand-dark text-white h-full shadow-2xl z-20 flex-shrink-0">
+        <div class="p-6 lg:p-8 flex items-center gap-3 border-b border-white/10">
+            <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Youth Logo" class="w-12 h-12 bg-white object-contain rounded-xl p-1 border border-brand-accent/20 shadow-sm shrink-0" referrerpolicy="no-referrer">
+            <div>
+                <h1 class="font-serif font-bold text-base leading-tight text-white tracking-wide">Viemma Youth</h1>
+                <p class="text-[9px] text-brand-accent font-bold uppercase tracking-widest mt-1">Career Portal</p>
+            </div>
+        </div>
+        <div id="mock-badge" class="hidden mx-4 my-3 px-3 py-1.5 bg-yellow-500/15 border border-yellow-500/30 rounded-lg text-yellow-400 text-[10px] font-bold tracking-wider uppercase text-center animate-pulse">
+            <i class="fas fa-database mr-1"></i> Mock DB Active
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1 hide-scrollbar">
+            <p class="text-[10px] text-white/50 uppercase tracking-widest px-4 mb-2 font-semibold">My Journey</p>
+            <button onclick="switchTab('home')" class="nav-btn active w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-brand-accent bg-white/5" data-target="home">
+                <i class="fas fa-home w-5 text-center"></i> Dashboard
+            </button>
+            <button onclick="switchTab('quiz')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-white/80" data-target="quiz">
+                <i class="fas fa-magic w-5 text-center"></i> Career Match Quiz
+            </button>
+            <button onclick="switchTab('simulations')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-white/80" data-target="simulations">
+                <i class="fas fa-gamepad w-5 text-center"></i> Job Simulations
+            </button>
+            <button id="nav-profile-btn" onclick="switchTab('profile'); fetchUserProfileForm();" class="nav-btn w-full hidden flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-white/80" data-target="profile">
+                <i class="fas fa-user-cog w-5 text-center"></i> My Profile
+            </button>
+            
+            <p class="text-[10px] text-white/50 uppercase tracking-widest px-4 mt-6 mb-2 font-semibold">Opportunities</p>
+            <button onclick="switchTab('cv-hub')" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-white/80" data-target="cv-hub">
+                <i class="fas fa-file-alt w-5 text-center"></i> CV Hub
+            </button>
+            <button onclick="switchTab('board'); fetchJobs();" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-white/80" data-target="board">
+                <i class="fas fa-briefcase w-5 text-center"></i> Jobs Board
+            </button>
+
+            <!-- Admin specific -->
+            <div id="nav-admin" class="hidden">
+                <p class="text-[10px] text-brand-youth uppercase tracking-widest px-4 mt-6 mb-2 font-semibold">Administration</p>
+                <button onclick="switchTab('admin'); fetchAdminJobs(); fetchAdminApps(); fetchAdminUsers();" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors text-brand-youth" data-target="admin">
+                    <i class="fas fa-shield-alt w-5 text-center"></i> Admin Console
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-4 border-t border-white/10">
+            <button id="auth-sidebar-btn" onclick="handleAuthAction()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-bold uppercase tracking-widest bg-brand-accent text-brand-dark hover:bg-white transition-colors justify-center shadow-md">
+                <i class="fas fa-sign-in-alt" id="auth-sidebar-icon"></i> <span id="auth-sidebar-text">Sign In / Register</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <header class="md:hidden flex items-center justify-between bg-brand-dark text-white p-4 shadow-md z-30">
+        <div class="flex items-center gap-2">
+            <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Youth Logo" class="w-8 h-8 bg-white object-contain rounded-md p-0.5 shrink-0" referrerpolicy="no-referrer">
+            <h1 class="font-serif font-bold text-sm tracking-wide">Viemma Youth</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <div id="mobile-mock-badge" class="hidden px-2 py-1 bg-yellow-500/15 border border-yellow-500/30 rounded text-yellow-400 text-[9px] font-bold tracking-wider uppercase mr-1 animate-pulse">
+                Mock Mode
+            </div>
+            <button onclick="handleAuthAction()" class="text-brand-accent text-sm font-bold uppercase tracking-widest px-2"><i class="fas fa-user-circle"></i></button>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-xl px-2"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-brand-dark/95 backdrop-blur-lg pt-16 pb-4 px-4 overflow-y-auto">
+        <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="absolute top-5 right-5 text-2xl text-white"><i class="fas fa-times"></i></button>
+        <div class="space-y-2 mt-4">
+            <button onclick="switchTab('home'); document.getElementById('mobile-menu').classList.add('hidden')" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-white hover:bg-brand-accent hover:text-brand-dark"><i class="fas fa-home w-6"></i> Dashboard</button>
+            <button id="mobile-nav-profile" onclick="switchTab('profile'); fetchUserProfileForm(); document.getElementById('mobile-menu').classList.add('hidden')" class="hidden w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-white hover:bg-brand-accent hover:text-brand-dark"><i class="fas fa-user-cog w-6"></i> My Profile</button>
+            <button onclick="switchTab('board'); fetchJobs(); document.getElementById('mobile-menu').classList.add('hidden')" class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-white hover:bg-brand-accent hover:text-brand-dark"><i class="fas fa-briefcase w-6"></i> Jobs Board</button>
+            <button id="mobile-nav-admin" onclick="switchTab('admin'); fetchAdminJobs(); fetchAdminApps(); fetchAdminUsers(); document.getElementById('mobile-menu').classList.add('hidden')" class="hidden w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-brand-youth hover:bg-brand-accent hover:text-brand-dark"><i class="fas fa-shield-alt w-6"></i> Admin Console</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-full overflow-y-auto relative pb-20 md:pb-0" id="main-scroll-area">
+        
+        <!-- DASHBOARD -->
+        <section id="home" class="dashboard-section active min-h-full">
+            <div class="bg-white border-b border-gray-200 px-6 md:px-12 lg:px-16 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="flex items-center gap-6">
+                        <div class="relative">
+                            <div class="w-20 h-20 bg-gray-200 rounded-full overflow-hidden border-4 border-brand-accent shadow-sm flex items-center justify-center relative">
+                                <img id="user-avatar-img" class="w-full h-full object-cover hidden" src="" alt="Profile Image">
+                                <i class="fas fa-user text-3xl text-gray-400" id="user-avatar-icon"></i>
+                            </div>
+                            <div id="user-level-badge" class="absolute -bottom-2 -right-2 bg-brand-dark text-white text-[10px] font-bold px-2 py-1 rounded border-2 border-white shadow">LVL 0</div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                <h2 class="text-2xl font-serif font-bold text-brand-dark" id="user-welcome-text">Welcome, Guest!</h2>
+                                <button onclick="switchTab('profile'); fetchUserProfileForm();" id="header-manage-profile-btn" class="hidden text-xs font-semibold text-brand-accent hover:text-brand-dark flex items-center gap-1 bg-brand-soft px-2.5 py-1 rounded border border-brand-accent/20 transition-all max-w-max">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </button>
+                            </div>
+                            <p class="text-gray-500 text-sm flex items-center gap-2 mt-1">
+                                <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Explorer</span> 
+                                <span class="text-brand-youth font-bold"><i class="fas fa-bolt"></i> <span id="user-xp-text">0</span> XP</span> 
+                                <span class="text-gray-400">|</span> 
+                                <span><i class="fas fa-medal text-brand-accent"></i> <span id="user-badges-text">0</span> Badges</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div class="progress-ring" id="profile-progress-ring" style="background: conic-gradient(#D4AF37 0%, #e5e7eb 0);">
+                            <div class="progress-ring-inner text-brand-dark" id="profile-progress-text">0%</div>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-widest text-brand-dark">Profile Completion</h4>
+                            <p class="text-[10px] text-gray-500 mt-1" id="profile-progress-hint">Sign in to start</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Badges and Profile details -->
+            <div id="badges-container" class="hidden px-6 md:px-12 lg:px-16 py-6 border-b border-gray-150 bg-gray-50/50">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3"><i class="fas fa-medal text-brand-accent mr-1"></i> My Earned Badges</h4>
+                <div id="badges-list" class="flex flex-wrap gap-2.5"></div>
+            </div>
+
+            <div class="px-6 md:px-12 lg:px-16 py-10">
+                <h3 class="text-lg font-bold text-brand-dark mb-6"><i class="fas fa-map-signs text-brand-accent mr-2"></i> Your Recommended Flow</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div onclick="switchTab('quiz')" class="bg-white p-5 rounded-xl border-2 border-brand-accent shadow-soft cursor-pointer relative group">
+                        <i class="fas fa-magic text-2xl text-brand-accent mb-3 group-hover:scale-110 transition-transform"></i>
+                        <h4 class="font-bold text-brand-dark text-sm mb-1">Career Quiz</h4>
+                        <p class="text-xs text-gray-500">Find your ideal tourism sector.</p>
+                    </div>
+                    <div onclick="switchTab('simulations')" class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm cursor-pointer group">
+                        <i class="fas fa-gamepad text-2xl text-gray-300 mb-3 group-hover:text-brand-accent transition-colors"></i>
+                        <h4 class="font-bold text-brand-dark text-sm mb-1">Job Simulations</h4>
+                        <p class="text-xs text-gray-500">Earn XP by solving real scenarios.</p>
+                    </div>
+                    <div onclick="switchTab('cv-hub')" class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm cursor-pointer group">
+                        <i class="fas fa-file-signature text-2xl text-gray-300 mb-3 group-hover:text-brand-accent transition-colors"></i>
+                        <h4 class="font-bold text-brand-dark text-sm mb-1">Build CV</h4>
+                        <p class="text-xs text-gray-500">Upload your CV securely.</p>
+                    </div>
+                    <div onclick="switchTab('board'); fetchJobs();" class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm cursor-pointer group">
+                        <i class="fas fa-paper-plane text-2xl text-gray-300 mb-3 group-hover:text-brand-accent transition-colors"></i>
+                        <h4 class="font-bold text-brand-dark text-sm mb-1">Apply</h4>
+                        <p class="text-xs text-gray-500">Find learnerships and jobs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ SECTION -->
+        <section id="quiz" class="dashboard-section min-h-full bg-white">
+            <div class="py-12 px-6 md:px-12 lg:px-20 max-w-4xl mx-auto">
+                <div id="quiz-intro" class="text-center">
+                    <i class="fas fa-magic text-5xl text-brand-accent mb-6"></i>
+                    <h2 class="text-3xl font-serif text-brand-dark italic mb-4">Find Your Perfect Path</h2>
+                    <p class="text-gray-600 text-sm mb-8">Answer 10 quick questions to discover which tourism sector matches your personality. Earn 100 XP upon completion!</p>
+                    <button onclick="startQuiz()" class="bg-brand-dark text-white px-8 py-3 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-accent hover:text-brand-dark transition-colors shadow-md">Start Quiz</button>
+                </div>
+                
+                <div id="quiz-questions" class="hidden">
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                            <span id="quiz-progress-text">Step 1 of 10</span>
+                        </div>
+                        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div id="quiz-progress-bar" class="h-full bg-brand-accent transition-all duration-300" style="width: 10%;"></div>
+                        </div>
+                    </div>
+                    <h3 id="quiz-question-title" class="text-2xl font-serif text-brand-dark mb-6">Question?</h3>
+                    <div id="quiz-options" class="space-y-3"></div>
+                </div>
+                
+                <div id="quiz-result" class="hidden text-center bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm">
+                    <div class="w-16 h-16 bg-brand-accent text-brand-dark rounded-full flex items-center justify-center text-3xl mx-auto mb-4"><i class="fas fa-award"></i></div>
+                    <h3 class="text-xl font-bold uppercase tracking-widest text-brand-dark mb-2">Your Match</h3>
+                    <h4 id="quiz-result-title" class="text-3xl font-serif italic text-brand-accent mb-4">Result</h4>
+                    <p id="quiz-result-desc" class="text-gray-600 text-sm mb-8 leading-relaxed">Description</p>
+                    <button onclick="resetQuiz()" class="bg-white border border-gray-200 text-gray-600 px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-50 transition-colors shadow-sm">Retake Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIMULATIONS SECTION -->
+        <section id="simulations" class="dashboard-section min-h-full bg-gray-50">
+            <div class="py-12 px-6 md:px-12 lg:px-16 text-center">
+                <span class="text-brand-accent text-[10px] font-bold uppercase tracking-[0.2em] mb-3 block">Interactive Learning</span>
+                <h2 class="text-3xl md:text-4xl font-serif text-brand-dark italic mb-4">A Day in the Life</h2>
+                <p class="text-gray-600 text-sm max-w-2xl mx-auto">Earn XP for handling situations like a true professional.</p>
+            </div>
+            <div class="px-6 md:px-12 lg:px-16 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="p-6 flex flex-col flex-1">
+                        <h4 class="font-bold text-brand-dark mb-2">The Overbooked Hotel</h4>
+                        <p class="text-xs text-gray-500 mb-6 flex-1">A VIP guest arrives, but their room is double-booked. How do you handle it?</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="text-[10px] font-bold text-brand-youth uppercase tracking-widest">+50 XP</span>
+                            <button onclick="runSimulation('hotel')" class="bg-brand-dark text-white px-4 py-2 rounded text-xs hover:bg-brand-accent hover:text-brand-dark shadow">Play</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="p-6 flex flex-col flex-1">
+                        <h4 class="font-bold text-brand-dark mb-2">The Flat Tyre Encounter</h4>
+                        <p class="text-xs text-gray-500 mb-6 flex-1">You get a flat tyre near lions. Keep guests calm and safe.</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="text-[10px] font-bold text-brand-youth uppercase tracking-widest">+100 XP</span>
+                            <button onclick="runSimulation('safari')" class="bg-brand-dark text-white px-4 py-2 rounded text-xs hover:bg-brand-accent hover:text-brand-dark shadow">Play</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="p-6 flex flex-col flex-1">
+                        <h4 class="font-bold text-brand-dark mb-2">The Cancelled Flight</h4>
+                        <p class="text-xs text-gray-500 mb-6 flex-1">Client flight cancelled due to a cyclone. Rebook them.</p>
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
+                            <span class="text-[10px] font-bold text-brand-youth uppercase tracking-widest">+75 XP</span>
+                            <button onclick="runSimulation('agent')" class="bg-brand-dark text-white px-4 py-2 rounded text-xs hover:bg-brand-accent hover:text-brand-dark shadow">Play</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV HUB -->
+        <section id="cv-hub" class="dashboard-section min-h-full bg-white">
+            <div class="py-12 px-6 md:px-12 lg:px-20 border-b border-gray-100">
+                <h2 class="text-3xl md:text-4xl font-serif text-brand-dark italic mb-4">CV & Soft Skills Hub</h2>
+            </div>
+            <div class="px-6 md:px-12 lg:px-20 py-12 flex justify-center">
+                <div class="w-full max-w-lg bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-inner">
+                    <h3 class="text-lg font-bold text-brand-dark mb-2">Upload Your CV</h3>
+                    <form id="cv-upload-form" class="space-y-4">
+                        <div class="pt-2">
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Select File (PDF/Word)</label>
+                            <div class="border-2 border-dashed border-brand-accent rounded-lg p-6 text-center bg-white hover:bg-yellow-50 transition-colors relative cursor-pointer group">
+                                <input type="file" id="cv-file-input" required accept=".pdf,.doc,.docx" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="document.getElementById('file-name-display').innerText = this.files[0]?.name || 'Drag & drop or click to browse'">
+                                <i class="fas fa-cloud-upload-alt text-2xl text-brand-accent mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="text-xs text-gray-600 font-medium" id="file-name-display">Drag & drop or click to browse</p>
+                            </div>
+                        </div>
+                        <button type="submit" id="cv-upload-btn" class="w-full bg-brand-dark text-white py-3 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-accent hover:text-brand-dark shadow-md flex items-center justify-center gap-2">
+                            Upload to Profile
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- MY PROFILE SECTION -->
+        <section id="profile" class="dashboard-section min-h-full py-12 px-6 md:px-12 lg:px-20 bg-gray-50">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8 flex justify-between items-center">
+                    <div>
+                        <span class="text-brand-accent text-[10px] font-bold uppercase tracking-[0.2em] mb-1.5 block">My Credentials</span>
+                        <h2 class="text-3xl font-serif text-brand-dark italic mb-2">My Journey Profile</h2>
+                        <p class="text-sm text-gray-500">Tailor your personal credentials and customize your tourism career avatar.</p>
+                    </div>
+                    <button onclick="switchTab('home')" class="text-xs font-bold text-brand-dark hover:text-brand-accent flex items-center gap-1.5 bg-white px-3.5 py-2 rounded-lg border shadow-sm transition-colors"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Left card: Progression Summary -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center text-center h-fit">
+                        <div class="relative mb-4">
+                            <div class="w-24 h-24 bg-brand-soft rounded-full flex items-center justify-center border-4 border-brand-accent shadow-soft overflow-hidden relative">
+                                <img id="profile-card-avatar-img" class="w-full h-full object-cover hidden" src="" alt="Profile Image">
+                                <i class="fas fa-user text-4xl text-brand-dark" id="profile-card-avatar-icon"></i>
+                            </div>
+                            <span id="profile-card-level" class="absolute -bottom-2 -right-2 bg-brand-dark text-white text-xs font-bold px-2.5 py-1 rounded border-2 border-white shadow">LVL 0</span>
+                        </div>
+                        
+                        <h3 id="profile-card-fullname" class="text-xl font-bold text-brand-dark">Guest Traveler</h3>
+                        <p id="profile-card-email" class="text-xs text-gray-400 mb-4">guest@viemma.com</p>
+                        
+                        <div class="w-full space-y-3.5 border-t pt-4 text-left">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Total Progress:</span>
+                                <span id="profile-card-xp-text" class="font-bold text-brand-youth"><i class="fas fa-bolt"></i> 0 XP</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Journey Status:</span>
+                                <span id="profile-card-status" class="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded font-bold uppercase tracking-wide text-[10px]">Explorer</span>
+                            </div>
+                        </div>
+
+                        <!-- Active Badge Display -->
+                        <div class="w-full mt-6 border-t pt-4 text-left">
+                            <h4 class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3">Earned Achievements</h4>
+                            <div id="profile-card-badges-list" class="flex flex-wrap gap-1.5">
+                                <span class="text-xs text-gray-400 italic">No achievements yet. Take the Career Match quiz to earn your first badge!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right card: Editable Forms -->
+                    <div class="md:col-span-2 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-brand-dark mb-4 pb-2 border-b"><i class="fas fa-id-card text-brand-accent mr-2"></i>Account Details</h3>
+                        
+                        <form id="user-profile-edit-form" class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">First Name</label>
+                                    <input type="text" id="up-first-name" required class="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-sm focus:outline-none focus:border-brand-accent">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Last Name</label>
+                                    <input type="text" id="up-last-name" required class="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-sm focus:outline-none focus:border-brand-accent">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Email Address</label>
+                                <input type="email" id="up-email" required class="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-sm focus:outline-none focus:border-brand-accent">
+                            </div>
+
+                            <!-- Profile Picture Upload Area -->
+                            <div class="border-t pt-4">
+                                <label class="block text-xs font-bold uppercase text-gray-400 mb-2">Profile Picture</label>
+                                <div class="flex flex-col sm:flex-row items-center gap-6 bg-gray-50 p-4 rounded-xl border border-dashed border-gray-300">
+                                    <div class="relative w-20 h-20 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                                        <img id="form-avatar-preview-img" class="w-full h-full object-cover hidden" src="" alt="Preview">
+                                        <i id="form-avatar-preview-icon" class="fas fa-user text-2xl text-gray-400"></i>
+                                    </div>
+                                    <div class="w-full text-center sm:text-left">
+                                        <span class="text-xs font-semibold text-gray-600 block mb-1">Upload a Custom Profile Photo</span>
+                                        <p class="text-[10px] text-gray-400 mb-3">Supports JPG, PNG or WEBP (Max 2MB). Drag and drop or browse below.</p>
+                                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                                            <label class="cursor-pointer bg-brand-dark text-white hover:bg-brand-accent hover:text-brand-dark px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all inline-block shadow-sm">
+                                                <i class="fas fa-camera mr-1"></i> Browse Photo
+                                                <input type="file" id="up-avatar-file" accept="image/*" class="hidden" onchange="handleProfilePhotoUpload(this)">
+                                            </label>
+                                            <button type="button" id="remove-profile-photo-btn" onclick="removeProfilePhoto()" class="bg-white border border-gray-200 text-gray-500 hover:bg-red-50 hover:text-red-600 hover:border-red-100 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all">
+                                                <i class="fas fa-trash-alt mr-1"></i> Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Avatar selection grid -->
+                            <div class="border-t pt-4">
+                                <label class="block text-xs font-bold uppercase text-gray-400 mb-2">Or Choose a Preset Tourism Icon</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                                    <label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200" id="avatar-lbl-default">
+                                        <input type="radio" name="profile-avatar-radio" value="default" class="sr-only">
+                                        <i class="fas fa-user text-xl text-gray-400"></i>
+                                        <span class="text-[9px] font-bold text-gray-500 uppercase">Default</span>
+                                    </label>
+                                    <label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200" id="avatar-lbl-guide">
+                                        <input type="radio" name="profile-avatar-radio" value="guide" class="sr-only">
+                                        <i class="fas fa-compass text-xl text-brand-dark"></i>
+                                        <span class="text-[9px] font-bold text-gray-500 uppercase">Guide</span>
+                                    </label>
+                                    <label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200" id="avatar-lbl-chef">
+                                        <input type="radio" name="profile-avatar-radio" value="chef" class="sr-only">
+                                        <i class="fas fa-utensils text-xl text-brand-dark"></i>
+                                        <span class="text-[9px] font-bold text-gray-500 uppercase">Chef</span>
+                                    </label>
+                                    <label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200" id="avatar-lbl-explorer">
+                                        <input type="radio" name="profile-avatar-radio" value="explorer" class="sr-only">
+                                        <i class="fas fa-hiking text-xl text-brand-dark"></i>
+                                        <span class="text-[9px] font-bold text-gray-500 uppercase">Explorer</span>
+                                    </label>
+                                    <label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200" id="avatar-lbl-manager">
+                                        <input type="radio" name="profile-avatar-radio" value="manager" class="sr-only">
+                                        <i class="fas fa-hotel text-xl text-brand-dark"></i>
+                                        <span class="text-[9px] font-bold text-gray-500 uppercase">Manager</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="border-t pt-4">
+                                <h4 class="text-sm font-bold text-brand-dark mb-3"><i class="fas fa-lock text-brand-accent mr-2"></i>Change Password</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">New Password</label>
+                                        <input type="password" id="up-password" placeholder="Leave blank to keep current" class="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-sm focus:outline-none focus:border-brand-accent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Confirm Password</label>
+                                        <input type="password" id="up-confirm-password" placeholder="Leave blank to keep current" class="w-full px-4 py-2.5 rounded-lg border bg-gray-50 text-sm focus:outline-none focus:border-brand-accent">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="profile-save-btn" class="w-full bg-brand-dark text-white py-3 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-accent hover:text-brand-dark shadow-md flex items-center justify-center gap-2 transition-colors">
+                                Save Profile Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- JOBS BOARD -->
+        <section id="board" class="dashboard-section min-h-full py-12 px-6 md:px-12 lg:px-20">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-serif text-brand-dark italic mb-2">Opportunities Board</h2>
+                </div>
+                <div class="flex gap-2">
+                    <select id="filter-type" onchange="fetchJobs()" class="px-4 py-2 text-xs border border-gray-200 rounded-lg bg-white focus:outline-none focus:border-brand-accent text-gray-600">
+                        <option value="">All Types</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Learnership">Learnership</option>
+                        <option value="Entry-Level Job">Entry-Level Job</option>
+                        <option value="Volunteer">Volunteer</option>
+                    </select>
+                    <select id="filter-loc" onchange="fetchJobs()" class="px-4 py-2 text-xs border border-gray-200 rounded-lg bg-white focus:outline-none focus:border-brand-accent text-gray-600">
+                        <option value="">All Locations</option>
+                        <option value="Cape Town">Cape Town</option>
+                        <option value="Johannesburg">Johannesburg</option>
+                        <option value="Mpumalanga">Mpumalanga</option>
+                        <option value="Gqeberha">Gqeberha</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 text-[10px] uppercase tracking-widest text-gray-500 border-b border-gray-200">
+                                <th class="p-4 font-semibold">Role / Title</th>
+                                <th class="p-4 font-semibold">Company</th>
+                                <th class="p-4 font-semibold">Location</th>
+                                <th class="p-4 font-semibold">Type</th>
+                                <th class="p-4 font-semibold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100" id="jobs-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN DASHBOARD -->
+        <section id="admin" class="dashboard-section min-h-full py-12 px-6 md:px-12 lg:px-20 bg-gray-50">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-serif text-brand-dark italic mb-2"><i class="fas fa-shield-alt text-brand-youth mr-2"></i>Admin Console</h2>
+                    <p class="text-sm text-gray-500">Manage Job Postings and Applications.</p>
+                </div>
+            </div>
+
+            <!-- Job Management -->
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-12">
+                <h3 class="text-xl font-bold text-brand-dark mb-4 border-b pb-2">Post New Job</h3>
+                <form id="admin-post-job-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" id="aj-title" placeholder="Job Title" required class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                    <input type="text" id="aj-company" placeholder="Company Name" required class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                    <input type="text" id="aj-loc" placeholder="Location" required class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                    <select id="aj-type" required class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                        <option value="Internship">Internship</option>
+                        <option value="Learnership">Learnership</option>
+                        <option value="Entry-Level Job">Entry-Level Job</option>
+                        <option value="Volunteer">Volunteer</option>
+                    </select>
+                    <input type="text" id="aj-salary" placeholder="Salary/Stipend" class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                    <input type="text" id="aj-qual" placeholder="Qualifications required" class="px-4 py-2 border rounded-lg text-sm bg-gray-50">
+                    <div class="md:col-span-2">
+                        <button type="submit" id="admin-post-btn" class="bg-brand-dark text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-accent hover:text-brand-dark transition-colors">Post Job</button>
+                    </div>
+                </form>
+
+                <h3 class="text-xl font-bold text-brand-dark mt-8 mb-4 border-b pb-2">Active Jobs</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead><tr class="bg-gray-100 text-xs text-gray-500"><th class="p-3">Title</th><th class="p-3">Company</th><th class="p-3">Actions</th></tr></thead>
+                        <tbody id="admin-jobs-body" class="divide-y divide-gray-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ATS Viewer -->
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-xl font-bold text-brand-dark mb-4 border-b pb-2">Applicant Tracking System (ATS)</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead><tr class="bg-gray-100 text-xs text-gray-500"><th class="p-3">Applicant Name</th><th class="p-3">Role</th><th class="p-3">CV Link</th><th class="p-3">Status</th></tr></thead>
+                        <tbody id="admin-apps-body" class="divide-y divide-gray-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Profiles Master Directory -->
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b pb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-brand-dark"><i class="fas fa-users-cog text-brand-youth mr-2"></i>User Accounts Master Directory</h3>
+                        <p class="text-xs text-gray-500">View, edit profiles, reset passwords, adjust levels, XP, or roles of any registered user.</p>
+                    </div>
+                    <div class="w-full md:w-64 relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="admin-user-search" oninput="filterAdminUsers()" placeholder="Search users by name/email..." class="w-full pl-9 pr-4 py-2 border rounded-lg text-xs bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-xs text-gray-500">
+                                <th class="p-3">User Profile</th>
+                                <th class="p-3">Credentials & Role</th>
+                                <th class="p-3">Progression & Status</th>
+                                <th class="p-3">Badges</th>
+                                <th class="p-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-body" class="divide-y divide-gray-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="login-modal" class="fixed inset-0 z-[200] modal-inactive flex items-center justify-center bg-brand-dark/90 backdrop-blur-md p-4">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative flex flex-col overflow-hidden max-h-[95vh] p-8">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:bg-gray-100 w-8 h-8 rounded-full"><i class="fas fa-times"></i></button>
+            
+            <div class="flex flex-col items-center mb-6 border-b border-gray-100 pb-4">
+                <img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXc366uzOWFLPWyEuBIMhicbjT2GajlyGrsVyeSDE68ap9hBFEamMNA78eyvIPmA-MVNbGhtCBwzKlk29IttM_jygwrCJXjmUdZt6iijoXLFzRyBcrcb_C-oH3KxcsenhczLCRl7RfOtKSy_7o02kbNgJ29iMA?key=KPDE2Lo8HhnJ3v--HqdAAw" alt="Viemma Youth Logo" class="h-16 object-contain mb-2" referrerpolicy="no-referrer">
+                <h2 class="font-serif font-bold text-xl text-brand-dark text-center">Viemma Youth Career Hub</h2>
+                <p class="text-[10px] text-gray-400 font-semibold tracking-wide uppercase mt-1">Tourism & Hospitality Career Portal</p>
+            </div>
+
+            <div class="flex gap-6 mb-6 border-b border-gray-200">
+                <button id="tab-login" onclick="toggleAuthMode('login')" class="pb-2 text-sm font-bold uppercase tracking-widest text-brand-dark border-b-2 border-brand-dark">Sign In</button>
+                <button id="tab-register" onclick="toggleAuthMode('register')" class="pb-2 text-sm font-bold uppercase tracking-widest text-gray-400 border-b-2 border-transparent">Register</button>
+            </div>
+            
+            <form id="form-login" class="space-y-4 block">
+                <input type="email" id="login-email" required placeholder="Email" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                <input type="password" id="login-password" required placeholder="Password" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                <button type="submit" id="login-btn" class="w-full bg-brand-dark text-white py-3 rounded-lg text-xs font-bold uppercase tracking-widest">Sign In</button>
+            </form>
+
+            <form id="form-register" class="space-y-4 hidden">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="reg-fname" required placeholder="First Name" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                    <input type="text" id="reg-lname" required placeholder="Last Name" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                </div>
+                <input type="email" id="reg-email" required placeholder="Email" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                <input type="password" id="reg-password" required placeholder="Password" class="w-full px-4 py-3 rounded-lg border bg-gray-50 text-sm">
+                <button type="submit" id="reg-btn" class="w-full bg-brand-accent text-brand-dark py-3 rounded-lg text-xs font-bold uppercase tracking-widest">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sim Overlay Modal -->
+    <div id="sim-modal" class="fixed inset-0 z-[100] modal-inactive flex items-center justify-center bg-brand-dark/80 backdrop-blur-md p-4">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative flex flex-col p-6">
+            <h3 class="text-lg font-bold text-brand-dark border-b pb-3 mb-4 flex justify-between">
+                <span id="sim-title">Scenario</span>
+                <button onclick="closeSimModal()" class="text-gray-400"><i class="fas fa-times"></i></button>
+            </h3>
+            <p id="sim-desc" class="text-sm text-gray-600 mb-6"></p>
+            <div id="sim-options" class="space-y-3"></div>
+            <div id="sim-result" class="hidden mt-6 p-4 rounded-xl border text-sm"></div>
+        </div>
+    </div>
+ 
+    <!-- Admin Edit User Modal -->
+    <div id="admin-edit-user-modal" class="fixed inset-0 z-[250] modal-inactive flex items-center justify-center bg-brand-dark/95 backdrop-blur-md p-4">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative flex flex-col overflow-hidden max-h-[95vh] p-8">
+            <button onclick="closeAdminEditUserModal()" class="absolute top-4 right-4 text-gray-400 hover:bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center"><i class="fas fa-times"></i></button>
+            <h3 class="text-xl font-serif font-bold text-brand-dark border-b pb-3 mb-6 flex items-center gap-2">
+                <i class="fas fa-user-edit text-brand-youth"></i> Master Account Control: <span id="ae-user-name-title">User</span>
+            </h3>
+            
+            <form id="admin-edit-user-form" class="space-y-4 overflow-y-auto pr-2 max-h-[70vh]">
+                <input type="hidden" id="ae-user-id">
+                
+                <!-- Profile Picture Preview & Reset in Admin Modal -->
+                <div class="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4">
+                    <div class="relative w-16 h-16 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                        <img id="ae-avatar-preview-img" class="w-full h-full object-cover hidden" src="" alt="User Photo">
+                        <i id="ae-avatar-preview-icon" class="fas fa-user text-xl text-gray-400"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-gray-600 block">User Profile Photo</span>
+                        <p class="text-[10px] text-gray-400">Viewed by Admin in high definition.</p>
+                        <button type="button" onclick="resetUserPhotoByAdmin()" class="mt-1.5 text-[9px] font-bold text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors">
+                            <i class="fas fa-trash-alt"></i> Reset to Default Icon
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">First Name</label>
+                        <input type="text" id="ae-first-name" required class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Last Name</label>
+                        <input type="text" id="ae-last-name" required class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Email Address</label>
+                        <input type="email" id="ae-email" required class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Access Control Password</label>
+                        <input type="text" id="ae-password" placeholder="Password hash or plain text" class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                        <span class="text-[9px] text-gray-400">View or type a new password to reset theirs.</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Status Class</label>
+                        <select id="ae-status" class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                            <option value="Graduate">Graduate</option>
+                            <option value="Student">Student</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Learner">Learner</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">System Role</label>
+                        <select id="ae-role" class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                            <option value="user">Normal User</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Experience Points (XP)</label>
+                        <input type="number" id="ae-xp" required min="0" class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400 mb-1">Profile Level</label>
+                        <input type="number" id="ae-level" required min="1" class="w-full px-4 py-2.5 border rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div class="border-t pt-4">
+                    <label class="block text-[10px] font-bold uppercase text-gray-400 mb-2">Awarded Badges</label>
+                    <div class="flex flex-wrap gap-4 bg-gray-50 p-3 rounded-lg border">
+                        <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer">
+                            <input type="checkbox" id="ae-badge-explorer" class="rounded border-gray-300 text-brand-dark focus:ring-brand-accent">
+                            <span class="flex items-center gap-1"><i class="fas fa-compass text-green-600"></i> Explorer</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer">
+                            <input type="checkbox" id="ae-badge-scholar" class="rounded border-gray-300 text-brand-dark focus:ring-brand-accent">
+                            <span class="flex items-center gap-1"><i class="fas fa-graduation-cap text-blue-600"></i> Scholar</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer">
+                            <input type="checkbox" id="ae-badge-master" class="rounded border-gray-300 text-brand-dark focus:ring-brand-accent">
+                            <span class="flex items-center gap-1"><i class="fas fa-trophy text-purple-600"></i> Master</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center border-t pt-6">
+                    <button type="button" onclick="deleteUserByAdmin()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-1.5">
+                        <i class="fas fa-trash-alt"></i> Delete User
+                    </button>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeAdminEditUserModal()" class="bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors">Cancel</button>
+                        <button type="submit" class="bg-brand-dark text-white hover:bg-brand-accent hover:text-brand-dark px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors">Save Account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.useMockMode = true; // Enabled by default for developers and instant local testing
+        const API_BASE = "";
+        let token = localStorage.getItem('jwt_token');
+        let role = localStorage.getItem('user_role') || 'user';
+        let currentProfile = null;
+        let appliedJobIds = [];
+        let uploadedAvatarBase64 = null;
+        window.aeAvatarValue = 'default';
+
+        // --- BROWSER-BASED DOCK DATABASE (VIEMMA_MOCK_DB) ---
+        const DEFAULT_MOCK_DB = {
+            users: [
+                { id: "u1", email: "user@viemma.com", password_hash: "user", first_name: "Siyabonga", last_name: "Nkosi", status: "Graduate", role: "user" },
+                { id: "u2", email: "lerato@viemma.com", password_hash: "lerato", first_name: "Lerato", last_name: "Molefe", status: "Student", role: "user" },
+                { id: "u3", email: "tariq@viemma.com", password_hash: "tariq", first_name: "Tariq", last_name: "Jansen", status: "Graduate", role: "user" },
+                { id: "u4", email: "zoe@viemma.com", password_hash: "zoe", first_name: "Zoe", last_name: "van der Merwe", status: "Learner", role: "user" },
+                { id: "u5", email: "mpho@viemma.com", password_hash: "mpho", first_name: "Mpho", last_name: "Dlamini", status: "Graduate", role: "user" },
+                { id: "adm", email: "admin@viemma.com", password_hash: "admin", first_name: "Admin", last_name: "Console", status: "Staff", role: "admin" }
+            ],
+            profiles: {
+                "u1": { user_id: "u1", xp: 120, level: 1, badges: ["Explorer"], cv_url: null, cv_uploaded_at: null, quiz_traits: {}, avatar: "explorer" },
+                "u2": { user_id: "u2", xp: 280, level: 2, badges: ["Explorer", "Scholar"], cv_url: null, cv_uploaded_at: null, quiz_traits: {}, avatar: "guide" },
+                "u3": { user_id: "u3", xp: 850, level: 4, badges: ["Explorer", "Scholar"], cv_url: "cv-tariq-jansen.pdf", cv_uploaded_at: "2026-07-18T10:00:00Z", quiz_traits: {}, avatar: "chef" },
+                "u4": { user_id: "u4", xp: 40, level: 1, badges: [], cv_url: null, cv_uploaded_at: null, quiz_traits: {}, avatar: "default" },
+                "u5": { user_id: "u5", xp: 1500, level: 6, badges: ["Explorer", "Scholar", "Master"], cv_url: "cv-mpho-dlamini.pdf", cv_uploaded_at: "2026-07-19T08:30:00Z", quiz_traits: {}, avatar: "manager" },
+                "adm": { user_id: "adm", xp: 5000, level: 10, badges: ["Master"], cv_url: null, cv_uploaded_at: null, quiz_traits: {}, avatar: "default" }
+            },
+            jobs: [
+                { id: "j1", title: "Junior Safari Guide Intern", company: "Kruger Private Reserve", location: "Mpumalanga", type: "Internship", salary: "R6,000 - R10,000", qualifications: "Matric, Passion for Wildlife", status: "active" },
+                { id: "j2", title: "Front Desk Receptionist", company: "V&A Waterfront Hotel", location: "Cape Town", type: "Entry-Level Job", salary: "R8,000 - R12,000", qualifications: "Diplomatic communication, fluent English", status: "active" },
+                { id: "j3", title: "Tourism Marketing Learnership", company: "Viemma Tours HQ", location: "Cape Town", type: "Learnership", salary: "R4,000 Stipend", qualifications: "Matric with English", status: "active" },
+                { id: "j4", title: "Events Assistant", company: "Sandton Convention Centre", location: "Johannesburg", type: "Entry-Level Job", salary: "R10,000 - R14,000", qualifications: "Event Management Certificate", status: "active" }
+            ],
+            applications: []
+        };
+
+        window.getMockDB = () => JSON.parse(localStorage.getItem('VIEMMA_MOCK_DB')) || DEFAULT_MOCK_DB;
+        window.saveMockDB = (db) => localStorage.setItem('VIEMMA_MOCK_DB', JSON.stringify(db));
+
+        // Sync or seed database automatically
+        (function initDatabase() {
+            let currentDB = null;
+            try {
+                currentDB = JSON.parse(localStorage.getItem('VIEMMA_MOCK_DB'));
+            } catch (e) {
+                currentDB = null;
+            }
+            if (!currentDB || !currentDB.users || currentDB.users.length <= 2) {
+                window.saveMockDB(DEFAULT_MOCK_DB);
+            }
+        })();
+
+        // --- TOAST NOTIFICATIONS SYSTEM ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-brand-accent text-brand-dark';
+            toast.className = `toast-enter flex items-center gap-3 px-6 py-4 rounded-lg shadow-float ${bgClass} text-white text-sm font-bold pointer-events-auto transition-all duration-300`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.replace('toast-enter', 'toast-enter-active'));
+            setTimeout(() => { 
+                toast.classList.replace('toast-enter-active', 'toast-exit-active'); 
+                setTimeout(() => toast.remove(), 300); 
+            }, 3000);
+        }
+
+        // --- CENTRALIZED API WRAPPER WITH DUAL-MODE BYPASS ---
+        async function apiFetch(url, options = {}) {
+            const headers = { ...options.headers };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            if (!(options.body instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
+            }
+
+            if (window.useMockMode) {
+                // Simulate network latency (400ms) to preserve loading state and spinners
+                await new Promise(resolve => setTimeout(resolve, 400));
+                return await handleMockRequest(url, { ...options, headers });
+            }
+
+            const res = await fetch(`${API_BASE}${url}`, { ...options, headers });
+            if (res.status === 401) logout();
+            return res;
+        }
+
+        // Keep fetchWithAuth for backwards compatibility
+        async function fetchWithAuth(url, options = {}) {
+            return apiFetch(url, options);
+        }
+
+        // --- MOCK DATABASE INTERCEPTOR LOGIC ---
+        async function handleMockRequest(url, options) {
+            const parsedUrl = new URL(url, 'http://localhost');
+            const path = parsedUrl.pathname;
+            const db = window.getMockDB();
+
+            const createResponse = (data, status = 200, ok = true) => {
+                return {
+                    ok,
+                    status,
+                    json: async () => data
+                };
+            };
+
+            const getUserIdFromHeader = () => {
+                if (!token) return null;
+                if (token.startsWith('mock-jwt-')) {
+                    return token.substring('mock-jwt-'.length);
+                }
+                return null;
+            };
+
+            try {
+                // POST: Register
+                if (path === '/api/auth/register' && options.method === 'POST') {
+                    const body = JSON.parse(options.body);
+                    const { email, password, first_name, last_name, status } = body;
+                    const exists = db.users.some(u => u.email.toLowerCase() === email.toLowerCase());
+                    if (exists) {
+                        return createResponse({ error: 'Email already exists' }, 400, false);
+                    }
+                    const userId = 'u_' + Date.now();
+                    db.users.push({
+                        id: userId,
+                        email,
+                        password_hash: password,
+                        first_name,
+                        last_name,
+                        status,
+                        role: 'user'
+                    });
+                    db.profiles[userId] = {
+                        user_id: userId,
+                        xp: 120,
+                        level: 1,
+                        badges: ["Explorer"],
+                        cv_url: null,
+                        cv_uploaded_at: null,
+                        quiz_traits: {}
+                    };
+                    window.saveMockDB(db);
+                    return createResponse({ token: 'mock-jwt-' + userId, message: 'Registration successful' });
+                }
+
+                // POST: Login
+                if (path === '/api/auth/login' && options.method === 'POST') {
+                    const body = JSON.parse(options.body);
+                    const { email, password } = body;
+                    const user = db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+                    if (!user || user.password_hash !== password) {
+                        return createResponse({ error: 'Invalid credentials' }, 401, false);
+                    }
+                    return createResponse({ token: 'mock-jwt-' + user.id, role: user.role, message: 'Login successful' });
+                }
+
+                // GET: User Profile
+                if (path === '/api/user/profile') {
+                    const userId = getUserIdFromHeader();
+                    if (!userId) return createResponse({ error: 'Unauthorized' }, 401, false);
+                    const user = db.users.find(u => u.id === userId);
+                    const profile = db.profiles[userId];
+                    if (!user || !profile) {
+                        return createResponse({ error: 'User not found' }, 404, false);
+                    }
+                    return createResponse({ profile: { ...user, ...profile } });
+                }
+
+                // POST: Update User Profile
+                if (path === '/api/user/profile/update' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    if (!userId) return createResponse({ error: 'Unauthorized' }, 401, false);
+                    const body = JSON.parse(options.body);
+                    const { first_name, last_name, email, password, avatar } = body;
+
+                    const userIndex = db.users.findIndex(u => u.id === userId);
+                    if (userIndex === -1) return createResponse({ error: 'User not found' }, 404, false);
+
+                    if (email && email.toLowerCase() !== db.users[userIndex].email.toLowerCase()) {
+                        const emailExists = db.users.some(u => u.id !== userId && u.email.toLowerCase() === email.toLowerCase());
+                        if (emailExists) {
+                            return createResponse({ error: 'Email address already in use by another account' }, 400, false);
+                        }
+                    }
+
+                    db.users[userIndex].first_name = first_name || db.users[userIndex].first_name;
+                    db.users[userIndex].last_name = last_name || db.users[userIndex].last_name;
+                    db.users[userIndex].email = email || db.users[userIndex].email;
+                    if (password) {
+                        db.users[userIndex].password_hash = password;
+                    }
+
+                    if (!db.profiles[userId]) {
+                        db.profiles[userId] = { user_id: userId, xp: 0, level: 1, badges: [], cv_url: null, cv_uploaded_at: null, quiz_traits: {} };
+                    }
+                    db.profiles[userId].avatar = avatar || db.profiles[userId].avatar;
+
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'Profile updated successfully', profile: { ...db.users[userIndex], ...db.profiles[userId] } });
+                }
+
+                // ADMIN: GET All Registered Users Directory
+                if (path === '/api/admin/users' && options.method === 'GET') {
+                    const userId = getUserIdFromHeader();
+                    const user = db.users.find(u => u.id === userId);
+                    if (!user || user.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const results = db.users.map(u => {
+                        const prof = db.profiles[u.id] || { xp: 0, level: 1, badges: [], avatar: null };
+                        return {
+                            ...u,
+                            ...prof
+                        };
+                    });
+                    return createResponse({ users: results });
+                }
+
+                // ADMIN: Update Any User Account Details
+                if (path === '/api/admin/users/update' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    const adminUser = db.users.find(u => u.id === userId);
+                    if (!adminUser || adminUser.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const body = JSON.parse(options.body);
+                    const { target_user_id, first_name, last_name, email, password, role: newRole, status, xp, level, badges } = body;
+
+                    const userIndex = db.users.findIndex(u => u.id === target_user_id);
+                    if (userIndex === -1) return createResponse({ error: 'User not found' }, 404, false);
+
+                    if (email && email.toLowerCase() !== db.users[userIndex].email.toLowerCase()) {
+                        const emailExists = db.users.some(u => u.id !== target_user_id && u.email.toLowerCase() === email.toLowerCase());
+                        if (emailExists) {
+                            return createResponse({ error: 'Email already in use' }, 400, false);
+                        }
+                    }
+
+                    db.users[userIndex].first_name = first_name || db.users[userIndex].first_name;
+                    db.users[userIndex].last_name = last_name || db.users[userIndex].last_name;
+                    db.users[userIndex].email = email || db.users[userIndex].email;
+                    db.users[userIndex].role = newRole || db.users[userIndex].role;
+                    db.users[userIndex].status = status || db.users[userIndex].status;
+                    if (password) {
+                        db.users[userIndex].password_hash = password;
+                    }
+
+                    if (!db.profiles[target_user_id]) {
+                        db.profiles[target_user_id] = { user_id: target_user_id, xp: 0, level: 1, badges: [], cv_url: null, cv_uploaded_at: null, quiz_traits: {} };
+                    }
+
+                    db.profiles[target_user_id].xp = parseInt(xp) || 0;
+                    db.profiles[target_user_id].level = parseInt(level) || 1;
+                    db.profiles[target_user_id].badges = badges || [];
+
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'User updated successfully by administrator' });
+                }
+
+                // ADMIN: Delete Any User Account
+                if (path.startsWith('/api/admin/users/') && options.method === 'DELETE') {
+                    const userId = getUserIdFromHeader();
+                    const adminUser = db.users.find(u => u.id === userId);
+                    if (!adminUser || adminUser.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const targetId = path.split('/').pop();
+                    if (targetId === userId) {
+                        return createResponse({ error: 'You cannot delete your own logged-in admin account!' }, 400, false);
+                    }
+
+                    db.users = db.users.filter(u => u.id !== targetId);
+                    delete db.profiles[targetId];
+                    db.applications = db.applications.filter(a => a.user_id !== targetId);
+
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'User account deleted successfully' });
+                }
+
+                // POST: Update XP & Badges
+                if (path === '/api/user/update-xp' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    if (!userId) return createResponse({ error: 'Unauthorized' }, 401, false);
+                    const body = JSON.parse(options.body);
+                    const { xp_earned, new_badge } = body;
+                    const profile = db.profiles[userId];
+                    if (!profile) return createResponse({ error: 'Profile not found' }, 404, false);
+
+                    profile.xp = (profile.xp || 0) + xp_earned;
+                    profile.level = Math.floor(profile.xp / 500) + 1;
+
+                    if (!profile.badges) profile.badges = [];
+                    if (new_badge && !profile.badges.includes(new_badge)) {
+                        profile.badges.push(new_badge);
+                    }
+                    window.saveMockDB(db);
+                    return createResponse({ xp: profile.xp, level: profile.level, badges: profile.badges });
+                }
+
+                // POST: Upload CV
+                if (path === '/api/cv/upload' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    if (!userId) return createResponse({ error: 'Unauthorized' }, 401, false);
+
+                    let filename = "cv-document.pdf";
+                    if (options.body instanceof FormData) {
+                        const file = options.body.get('cv');
+                        if (file && file.name) {
+                            filename = file.name;
+                        }
+                    }
+                    const cv_url = `r2-mock-link/${filename}`;
+                    const profile = db.profiles[userId];
+                    if (profile) {
+                        profile.cv_url = cv_url;
+                        profile.cv_uploaded_at = new Date().toISOString();
+                    }
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'CV Uploaded Successfully', cv_url });
+                }
+
+                // GET: Jobs Feed
+                if (path === '/api/jobs') {
+                    const type = parsedUrl.searchParams.get('type');
+                    const location = parsedUrl.searchParams.get('location');
+                    let filtered = db.jobs.filter(j => j.status === 'active');
+
+                    if (type && type !== '') {
+                        filtered = filtered.filter(j => j.type === type);
+                    }
+                    if (location && location !== '') {
+                        filtered = filtered.filter(j => j.location === location);
+                    }
+                    return createResponse({ jobs: filtered });
+                }
+
+                // POST: Apply for Job
+                if (path === '/api/jobs/apply' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    if (!userId) return createResponse({ error: 'Unauthorized' }, 401, false);
+                    const body = JSON.parse(options.body);
+                    const { job_id } = body;
+
+                    const profile = db.profiles[userId];
+                    if (!profile || !profile.cv_url) {
+                        return createResponse({ error: 'CV is required before you can apply. Go to the CV Hub to upload yours!' }, 400, false);
+                    }
+
+                    const alreadyApplied = db.applications.some(a => a.user_id === userId && a.job_id === job_id);
+                    if (alreadyApplied) {
+                        return createResponse({ error: 'You have already submitted an application for this role.' }, 400, false);
+                    }
+
+                    db.applications.push({
+                        id: 'app_' + Date.now(),
+                        user_id: userId,
+                        job_id,
+                        applied_at: new Date().toISOString(),
+                        status: 'pending',
+                        cv_url_snapshot: profile.cv_url
+                    });
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'Application submitted successfully' });
+                }
+
+                // ADMIN: GET Applications List
+                if (path === '/api/admin/applications') {
+                    const userId = getUserIdFromHeader();
+                    const user = db.users.find(u => u.id === userId);
+                    if (!user || user.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const results = db.applications.map(a => {
+                        const applicant = db.users.find(u => u.id === a.user_id) || {};
+                        const job = db.jobs.find(j => j.id === a.job_id) || {};
+                        return {
+                            id: a.id,
+                            applied_at: a.applied_at,
+                            status: a.status,
+                            cv_url_snapshot: a.cv_url_snapshot,
+                            first_name: applicant.first_name || 'Anonymous',
+                            last_name: applicant.last_name || 'Applicant',
+                            email: applicant.email || '',
+                            job_title: job.title || 'Deleted Role',
+                            job_company: job.company || 'Unknown Company'
+                        };
+                    });
+                    return createResponse({ applications: results });
+                }
+
+                // ADMIN: Update Status
+                if (path === '/api/admin/applications/status' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    const user = db.users.find(u => u.id === userId);
+                    if (!user || user.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const body = JSON.parse(options.body);
+                    const { application_id, status } = body;
+                    const app = db.applications.find(a => a.id === application_id);
+                    if (app) {
+                        app.status = status;
+                    }
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'Status updated successfully' });
+                }
+
+                // ADMIN: Insert Job
+                if (path === '/api/admin/jobs' && options.method === 'POST') {
+                    const userId = getUserIdFromHeader();
+                    const user = db.users.find(u => u.id === userId);
+                    if (!user || user.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const body = JSON.parse(options.body);
+                    const { title, company, location, type, salary, qualifications } = body;
+                    const jobId = 'j_' + Date.now();
+                    const newJob = {
+                        id: jobId,
+                        title,
+                        company,
+                        location,
+                        type,
+                        salary,
+                        qualifications,
+                        status: 'active',
+                        created_at: new Date().toISOString()
+                    };
+                    db.jobs.push(newJob);
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'Job posted successfully', job: { id: jobId, title, company } });
+                }
+
+                // ADMIN: Delete Job
+                if (path.startsWith('/api/admin/jobs/') && options.method === 'DELETE') {
+                    const userId = getUserIdFromHeader();
+                    const user = db.users.find(u => u.id === userId);
+                    if (!user || user.role !== 'admin') {
+                        return createResponse({ error: 'Forbidden' }, 403, false);
+                    }
+
+                    const jobId = path.split('/').pop();
+                    db.jobs = db.jobs.filter(j => j.id !== jobId);
+                    window.saveMockDB(db);
+                    return createResponse({ message: 'Job deleted successfully' });
+                }
+
+                return createResponse({ error: 'Endpoint Not Found' }, 404, false);
+            } catch (err) {
+                console.error("Local Mock Interceptor Error: ", err);
+                return createResponse({ error: err.message }, 500, false);
+            }
+        }
+
+        // --- SESSION AND AUTH UI HANDLERS ---
+        async function checkSession() {
+            initMockBadge();
+            if (!token) return updateUIDisconnected();
+            try {
+                const res = await apiFetch('/api/user/profile');
+                if (!res.ok) throw new Error('Not logged in');
+                const data = await res.json();
+                currentProfile = data.profile;
+                role = currentProfile.role;
+                localStorage.setItem('user_role', role);
+                updateUIConnected();
+            } catch (err) { 
+                logout(); 
+            }
+        }
+
+        function initMockBadge() {
+            const sidebarBadge = document.getElementById('mock-badge');
+            const mobileBadge = document.getElementById('mobile-mock-badge');
+            if (window.useMockMode) {
+                sidebarBadge?.classList.remove('hidden');
+                mobileBadge?.classList.remove('hidden');
+            } else {
+                sidebarBadge?.classList.add('hidden');
+                mobileBadge?.classList.add('hidden');
+            }
+        }
+
+        function updateUIConnected() {
+            document.getElementById('auth-sidebar-text').innerText = `Sign Out, ${currentProfile.first_name}`;
+            document.getElementById('auth-sidebar-icon').className = 'fas fa-sign-out-alt';
+            document.getElementById('user-welcome-text').innerText = `Welcome back, ${currentProfile.first_name}!`;
+            document.getElementById('user-xp-text').innerText = currentProfile.xp;
+            document.getElementById('user-level-badge').innerText = `LVL ${currentProfile.level}`;
+            
+            // Set avatar icons dynamically based on chosen avatar
+            const avatar = currentProfile.avatar || 'default';
+            const avatarIconElement = document.getElementById('user-avatar-icon');
+            const avatarImgElement = document.getElementById('user-avatar-img');
+
+            if (avatar.startsWith('data:')) {
+                if (avatarImgElement) {
+                    avatarImgElement.src = avatar;
+                    avatarImgElement.classList.remove('hidden');
+                }
+                if (avatarIconElement) {
+                    avatarIconElement.classList.add('hidden');
+                }
+            } else {
+                if (avatarImgElement) {
+                    avatarImgElement.classList.add('hidden');
+                    avatarImgElement.src = '';
+                }
+                let avatarClass = 'fa-user text-gray-400';
+                if (avatar === 'guide') {
+                    avatarClass = 'fa-compass text-brand-accent';
+                } else if (avatar === 'chef') {
+                    avatarClass = 'fa-utensils text-brand-accent';
+                } else if (avatar === 'explorer') {
+                    avatarClass = 'fa-hiking text-brand-accent';
+                } else if (avatar === 'manager') {
+                    avatarClass = 'fa-hotel text-brand-accent';
+                }
+
+                if (avatarIconElement) {
+                    avatarIconElement.className = `fas ${avatarClass} text-3xl`;
+                    avatarIconElement.classList.remove('hidden');
+                }
+            }
+
+            // Show profile navigation buttons and edit header link
+            document.getElementById('nav-profile-btn')?.classList.remove('hidden');
+            document.getElementById('mobile-nav-profile')?.classList.remove('hidden');
+            document.getElementById('header-manage-profile-btn')?.classList.remove('hidden');
+
+            // Dynamic Profile Completion Progress Calculation:
+            const hasQuiz = currentProfile.badges && currentProfile.badges.includes('Scholar');
+            const hasCV = currentProfile.cv_url ? true : false;
+            const progress = 30 + (hasQuiz ? 30 : 0) + (hasCV ? 40 : 0);
+
+            document.getElementById('profile-progress-text').innerText = `${progress}%`;
+            document.getElementById('profile-progress-ring').style.background = `conic-gradient(#D4AF37 ${progress}%, #e5e7eb 0)`;
+            document.getElementById('profile-progress-hint').innerText = hasCV 
+                ? "Profile 100% complete! Ready to apply." 
+                : "Upload your CV to complete your profile.";
+
+            document.getElementById('user-badges-text').innerText = currentProfile.badges ? currentProfile.badges.length : 0;
+
+            // Render Badges
+            const badgesList = document.getElementById('badges-list');
+            const badgesContainer = document.getElementById('badges-container');
+            if (currentProfile.badges && currentProfile.badges.length > 0) {
+                badgesContainer.classList.remove('hidden');
+                badgesList.innerHTML = '';
+                currentProfile.badges.forEach(b => {
+                    let icon = 'fa-medal';
+                    let color = 'text-yellow-600 bg-yellow-50 border-yellow-200';
+                    if (b === 'Scholar') {
+                        icon = 'fa-graduation-cap';
+                        color = 'text-blue-600 bg-blue-50 border-blue-200';
+                    } else if (b === 'Explorer') {
+                        icon = 'fa-compass';
+                        color = 'text-green-600 bg-green-50 border-green-200';
+                    } else if (b === 'Master') {
+                        icon = 'fa-trophy';
+                        color = 'text-purple-600 bg-purple-50 border-purple-200';
+                    }
+                    badgesList.innerHTML += `
+                        <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold ${color}">
+                            <i class="fas ${icon}"></i> ${b}
+                        </span>
+                    `;
+                });
+            } else {
+                badgesContainer.classList.add('hidden');
+            }
+
+            if (role === 'admin') {
+                document.getElementById('nav-admin').classList.remove('hidden');
+                document.getElementById('mobile-nav-admin').classList.remove('hidden');
+            } else {
+                document.getElementById('nav-admin').classList.add('hidden');
+                document.getElementById('mobile-nav-admin').classList.add('hidden');
+            }
+        }
+
+        function updateUIDisconnected() {
+            document.getElementById('auth-sidebar-text').innerText = 'Sign In / Register';
+            document.getElementById('auth-sidebar-icon').className = 'fas fa-sign-in-alt';
+            document.getElementById('user-welcome-text').innerText = 'Welcome, Guest!';
+            document.getElementById('user-xp-text').innerText = '0';
+            document.getElementById('user-badges-text').innerText = '0';
+            document.getElementById('user-level-badge').innerText = 'LVL 0';
+            document.getElementById('profile-progress-text').innerText = '0%';
+            document.getElementById('profile-progress-ring').style.background = `conic-gradient(#D4AF37 0%, #e5e7eb 0)`;
+            document.getElementById('profile-progress-hint').innerText = 'Sign in to start';
+            
+            const avatarIconElement = document.getElementById('user-avatar-icon');
+            if (avatarIconElement) {
+                avatarIconElement.className = 'fas fa-user text-gray-400 text-3xl';
+            }
+
+            document.getElementById('nav-profile-btn')?.classList.add('hidden');
+            document.getElementById('mobile-nav-profile')?.classList.add('hidden');
+            document.getElementById('header-manage-profile-btn')?.classList.add('hidden');
+
+            document.getElementById('nav-admin').classList.add('hidden');
+            document.getElementById('mobile-nav-admin').classList.add('hidden');
+            document.getElementById('badges-container').classList.add('hidden');
+        }
+
+        function logout(isManual = false) {
+            token = null; 
+            currentProfile = null; 
+            role = 'user';
+            appliedJobIds = [];
+            localStorage.removeItem('jwt_token'); 
+            localStorage.removeItem('user_role');
+            updateUIDisconnected(); 
+            if (isManual) {
+                showToast('Successfully logged out! Redirecting...');
+                setTimeout(() => {
+                    window.location.href = 'https://viemma.co.za';
+                }, 1000);
+            } else {
+                switchTab('home'); 
+                showToast('Successfully logged out!');
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.dashboard-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tabId)?.classList.add('active');
+
+            // Set active highlight class on navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const target = btn.getAttribute('data-target');
+                if (target === tabId) {
+                    btn.classList.add('text-brand-accent', 'bg-white/5');
+                    btn.classList.remove('text-white/80');
+                } else {
+                    btn.classList.remove('text-brand-accent', 'bg-white/5');
+                    btn.classList.add('text-white/80');
+                }
+            });
+        }
+
+        function handleAuthAction() { 
+            token ? logout(true) : openLoginModal(); 
+        }
+
+        function openLoginModal() { 
+            document.getElementById('login-modal').classList.replace('modal-inactive', 'modal-active'); 
+        }
+
+        function closeLoginModal() { 
+            document.getElementById('login-modal').classList.replace('modal-active', 'modal-inactive'); 
+        }
+
+        function toggleAuthMode(m) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            if (m === 'login') {
+                document.getElementById('form-login').classList.remove('hidden');
+                document.getElementById('form-register').classList.add('hidden');
+                tabLogin.className = "pb-2 text-sm font-bold uppercase tracking-widest text-brand-dark border-b-2 border-brand-dark";
+                tabRegister.className = "pb-2 text-sm font-bold uppercase tracking-widest text-gray-400 border-b-2 border-transparent";
+            } else {
+                document.getElementById('form-login').classList.add('hidden');
+                document.getElementById('form-register').classList.remove('hidden');
+                tabLogin.className = "pb-2 text-sm font-bold uppercase tracking-widest text-gray-400 border-b-2 border-transparent";
+                tabRegister.className = "pb-2 text-sm font-bold uppercase tracking-widest text-brand-dark border-b-2 border-brand-dark";
+            }
+        }
+
+        // --- MY PROFILE MANAGEMENT INTERFACES ---
+        let currentAdminUserList = []; // Keeps loaded master accounts for real-time local search filters
+
+        async function fetchUserProfileForm() {
+            if (!token) {
+                showToast("Please sign in to view your profile dashboard", "error");
+                switchTab('home');
+                return;
+            }
+            try {
+                const res = await apiFetch('/api/user/profile');
+                if (!res.ok) throw new Error("Could not pull profile credentials");
+                const data = await res.json();
+                const prof = data.profile;
+
+                // Sync left card details
+                document.getElementById('profile-card-fullname').innerText = `${prof.first_name} ${prof.last_name}`;
+                document.getElementById('profile-card-email').innerText = prof.email;
+                document.getElementById('profile-card-level').innerText = `LVL ${prof.level || 1}`;
+                document.getElementById('profile-card-xp-text').innerText = `${prof.xp || 0} XP`;
+                document.getElementById('profile-card-status').innerText = prof.status || 'Explorer';
+
+                const avatar = prof.avatar || 'default';
+                const cardAvatarIcon = document.getElementById('profile-card-avatar-icon');
+                const cardAvatarImg = document.getElementById('profile-card-avatar-img');
+
+                if (avatar.startsWith('data:')) {
+                    uploadedAvatarBase64 = avatar;
+                    if (cardAvatarImg) {
+                        cardAvatarImg.src = avatar;
+                        cardAvatarImg.classList.remove('hidden');
+                    }
+                    if (cardAvatarIcon) {
+                        cardAvatarIcon.classList.add('hidden');
+                    }
+                } else {
+                    uploadedAvatarBase64 = null;
+                    if (cardAvatarImg) {
+                        cardAvatarImg.classList.add('hidden');
+                        cardAvatarImg.src = '';
+                    }
+                    let avatarClass = 'fa-user text-brand-dark';
+                    if (avatar === 'guide') avatarClass = 'fa-compass text-brand-dark';
+                    else if (avatar === 'chef') avatarClass = 'fa-utensils text-brand-dark';
+                    else if (avatar === 'explorer') avatarClass = 'fa-hiking text-brand-dark';
+                    else if (avatar === 'manager') avatarClass = 'fa-hotel text-brand-dark';
+
+                    if (cardAvatarIcon) {
+                        cardAvatarIcon.className = `fas ${avatarClass} text-4xl`;
+                        cardAvatarIcon.classList.remove('hidden');
+                    }
+                }
+
+                // Update form picture preview
+                const formPreviewImg = document.getElementById('form-avatar-preview-img');
+                const formPreviewIcon = document.getElementById('form-avatar-preview-icon');
+                if (avatar.startsWith('data:')) {
+                    if (formPreviewImg) {
+                        formPreviewImg.src = avatar;
+                        formPreviewImg.classList.remove('hidden');
+                    }
+                    if (formPreviewIcon) {
+                        formPreviewIcon.classList.add('hidden');
+                    }
+                } else {
+                    if (formPreviewImg) {
+                        formPreviewImg.classList.add('hidden');
+                        formPreviewImg.src = '';
+                    }
+                    if (formPreviewIcon) {
+                        let previewClass = 'fa-user text-gray-400';
+                        if (avatar === 'guide') previewClass = 'fa-compass text-brand-dark';
+                        else if (avatar === 'chef') previewClass = 'fa-utensils text-brand-dark';
+                        else if (avatar === 'explorer') previewClass = 'fa-hiking text-brand-dark';
+                        else if (avatar === 'manager') previewClass = 'fa-hotel text-brand-dark';
+                        formPreviewIcon.className = `fas ${previewClass} text-2xl`;
+                        formPreviewIcon.classList.remove('hidden');
+                    }
+                }
+
+                // Render achievements list in profile summary card
+                const badgesList = document.getElementById('profile-card-badges-list');
+                if (badgesList) {
+                    if (prof.badges && prof.badges.length > 0) {
+                        badgesList.innerHTML = '';
+                        prof.badges.forEach(b => {
+                            let icon = 'fa-medal';
+                            let color = 'text-yellow-600 bg-yellow-50 border-yellow-200';
+                            if (b === 'Scholar') {
+                                icon = 'fa-graduation-cap';
+                                color = 'text-blue-600 bg-blue-50 border-blue-200';
+                            } else if (b === 'Explorer') {
+                                icon = 'fa-compass';
+                                color = 'text-green-600 bg-green-50 border-green-200';
+                            } else if (b === 'Master') {
+                                icon = 'fa-trophy';
+                                color = 'text-purple-600 bg-purple-50 border-purple-200';
+                            }
+                            badgesList.innerHTML += `
+                                <span class="flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold ${color}">
+                                    <i class="fas ${icon}"></i> ${b}
+                                </span>
+                            `;
+                        });
+                    } else {
+                        badgesList.innerHTML = `<span class="text-xs text-gray-400 italic">No achievements yet. Complete career tasks to earn badges!</span>`;
+                    }
+                }
+
+                // Fill form details
+                document.getElementById('up-first-name').value = prof.first_name || '';
+                document.getElementById('up-last-name').value = prof.last_name || '';
+                document.getElementById('up-email').value = prof.email || '';
+                document.getElementById('up-password').value = '';
+                document.getElementById('up-confirm-password').value = '';
+
+                // Select the correct avatar radio button in form
+                const radios = document.getElementsByName('profile-avatar-radio');
+                radios.forEach(r => {
+                    r.checked = (r.value === avatar);
+                    // Update border highlights of parent labels
+                    const parentLbl = document.getElementById(`avatar-lbl-${r.value}`);
+                    if (parentLbl) {
+                        if (r.value === avatar) {
+                            parentLbl.className = "cursor-pointer border-2 border-brand-accent bg-brand-soft rounded-xl p-3 flex flex-col items-center gap-2 text-center relative transition-all duration-200";
+                        } else {
+                            parentLbl.className = "cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200";
+                        }
+                    }
+                });
+
+                // Attach change listeners to update highlights on click
+                radios.forEach(r => {
+                    r.onchange = () => {
+                        // Clear uploaded custom photo preview if preset is chosen
+                        uploadedAvatarBase64 = null;
+                        const fileInput = document.getElementById('up-avatar-file');
+                        if (fileInput) fileInput.value = '';
+
+                        const previewImg = document.getElementById('form-avatar-preview-img');
+                        const previewIcon = document.getElementById('form-avatar-preview-icon');
+                        if (previewImg) {
+                            previewImg.classList.add('hidden');
+                            previewImg.src = '';
+                        }
+                        if (previewIcon) {
+                            previewIcon.classList.remove('hidden');
+                        }
+
+                        radios.forEach(rad => {
+                            const parentLbl = document.getElementById(`avatar-lbl-${rad.value}`);
+                            if (parentLbl) {
+                                if (rad.checked) {
+                                    parentLbl.className = "cursor-pointer border-2 border-brand-accent bg-brand-soft rounded-xl p-3 flex flex-col items-center gap-2 text-center relative transition-all duration-200";
+                                } else {
+                                    parentLbl.className = "cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200";
+                                }
+                            }
+                        });
+                    };
+                });
+
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // --- CUSTOM PROFILE PHOTO UPLOAD ACTIONS ---
+        function handleProfilePhotoUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Validate type and size (Max 2MB)
+            if (!file.type.startsWith('image/')) {
+                showToast("Please upload a valid image file!", "error");
+                input.value = '';
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                showToast("Image size must be smaller than 2MB!", "error");
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedAvatarBase64 = e.target.result;
+                
+                // Show preview image
+                const previewImg = document.getElementById('form-avatar-preview-img');
+                const previewIcon = document.getElementById('form-avatar-preview-icon');
+                if (previewImg) {
+                    previewImg.src = uploadedAvatarBase64;
+                    previewImg.classList.remove('hidden');
+                }
+                if (previewIcon) {
+                    previewIcon.classList.add('hidden');
+                }
+
+                // Deselect preset radios to prevent double-selection confusion
+                const radios = document.getElementsByName('profile-avatar-radio');
+                radios.forEach(r => {
+                    r.checked = false;
+                    const parentLbl = document.getElementById(`avatar-lbl-${r.value}`);
+                    if (parentLbl) {
+                        parentLbl.className = "cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200";
+                    }
+                });
+
+                showToast("Photo selected! Click 'Save Profile Changes' below to save.");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeProfilePhoto() {
+            uploadedAvatarBase64 = null;
+            const input = document.getElementById('up-avatar-file');
+            if (input) input.value = '';
+
+            const previewImg = document.getElementById('form-avatar-preview-img');
+            const previewIcon = document.getElementById('form-avatar-preview-icon');
+            if (previewImg) {
+                previewImg.classList.add('hidden');
+                previewImg.src = '';
+            }
+            if (previewIcon) {
+                previewIcon.className = "fas fa-user text-2xl text-gray-400";
+                previewIcon.classList.remove('hidden');
+            }
+
+            // Select "default" preset radio button
+            const radios = document.getElementsByName('profile-avatar-radio');
+            radios.forEach(r => {
+                r.checked = (r.value === 'default');
+                const parentLbl = document.getElementById(`avatar-lbl-${r.value}`);
+                if (parentLbl) {
+                    if (r.value === 'default') {
+                        parentLbl.className = "cursor-pointer border-2 border-brand-accent bg-brand-soft rounded-xl p-3 flex flex-col items-center gap-2 text-center relative transition-all duration-200";
+                    } else {
+                        parentLbl.className = "cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 text-center relative transition-all duration-200";
+                    }
+                }
+            });
+
+            showToast("Photo reset! Saved preset will be restored upon saving.");
+        }
+
+        function resetUserPhotoByAdmin() {
+            window.aeAvatarValue = 'default';
+            const aeImg = document.getElementById('ae-avatar-preview-img');
+            const aeIcon = document.getElementById('ae-avatar-preview-icon');
+            if (aeImg) {
+                aeImg.classList.add('hidden');
+                aeImg.src = '';
+            }
+            if (aeIcon) {
+                aeIcon.className = "fas fa-user text-xl text-gray-400";
+                aeIcon.classList.remove('hidden');
+            }
+            showToast("Photo marked for reset. Click 'Save Account' to commit changes.");
+        }
+
+        // --- SUBMIT USER PROFILE CHANGES ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('user-profile-edit-form');
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const first_name = document.getElementById('up-first-name').value.trim();
+                    const last_name = document.getElementById('up-last-name').value.trim();
+                    const email = document.getElementById('up-email').value.trim();
+                    const password = document.getElementById('up-password').value;
+                    const confirm_password = document.getElementById('up-confirm-password').value;
+
+                    if (password && password !== confirm_password) {
+                        showToast("Passwords do not match!", "error");
+                        return;
+                    }
+
+                    // Find checked avatar radio or custom uploaded base64 string
+                    const radios = document.getElementsByName('profile-avatar-radio');
+                    let avatar = 'default';
+                    let anyRadioChecked = false;
+                    radios.forEach(r => {
+                        if (r.checked) {
+                            avatar = r.value;
+                            anyRadioChecked = true;
+                        }
+                    });
+
+                    // If they uploaded a custom profile picture, prioritize that base64 string!
+                    if (uploadedAvatarBase64) {
+                        avatar = uploadedAvatarBase64;
+                    }
+
+                    try {
+                        const saveBtn = document.getElementById('profile-save-btn');
+                        const origText = saveBtn ? saveBtn.innerHTML : 'Save Profile Changes';
+                        if (saveBtn) {
+                            saveBtn.disabled = true;
+                            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Saving...';
+                        }
+
+                        const res = await apiFetch('/api/user/profile/update', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ first_name, last_name, email, password: password || undefined, avatar })
+                        });
+
+                        if (!res.ok) {
+                            const errData = await res.json();
+                            throw new Error(errData.error || "Failed to update profile details");
+                        }
+
+                        const data = await res.json();
+                        currentProfile = data.profile;
+                        showToast("Profile details updated successfully!");
+                        updateUIConnected();
+                        fetchUserProfileForm();
+
+                        if (saveBtn) {
+                            saveBtn.disabled = false;
+                            saveBtn.innerHTML = origText;
+                        }
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                        const saveBtn = document.getElementById('profile-save-btn');
+                        if (saveBtn) {
+                            saveBtn.disabled = false;
+                            saveBtn.innerHTML = 'Save Profile Changes';
+                        }
+                    }
+                });
+            }
+
+            const adminForm = document.getElementById('admin-edit-user-form');
+            if (adminForm) {
+                adminForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const target_user_id = document.getElementById('ae-user-id').value;
+                    const first_name = document.getElementById('ae-first-name').value.trim();
+                    const last_name = document.getElementById('ae-last-name').value.trim();
+                    const email = document.getElementById('ae-email').value.trim();
+                    const password = document.getElementById('ae-password').value;
+                    const status = document.getElementById('ae-status').value;
+                    const roleInput = document.getElementById('ae-role').value;
+                    const xp = document.getElementById('ae-xp').value;
+                    const level = document.getElementById('ae-level').value;
+
+                    const badges = [];
+                    if (document.getElementById('ae-badge-explorer').checked) badges.push('Explorer');
+                    if (document.getElementById('ae-badge-scholar').checked) badges.push('Scholar');
+                    if (document.getElementById('ae-badge-master').checked) badges.push('Master');
+
+                    try {
+                        const res = await apiFetch('/api/admin/users/update', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                target_user_id,
+                                first_name,
+                                last_name,
+                                email,
+                                password,
+                                role: roleInput,
+                                status,
+                                xp,
+                                level,
+                                badges,
+                                avatar: window.aeAvatarValue
+                            })
+                        });
+
+                        if (!res.ok) {
+                            const errData = await res.json();
+                            throw new Error(errData.error || "Failed to update target account");
+                        }
+
+                        showToast("Account details updated successfully by administrator!");
+                        closeAdminEditUserModal();
+                        fetchAdminUsers(); // Reload table details
+
+                        // If currently logged in user edited their own admin account, sync local session details too
+                        const currentUserId = getUserIdFromHeader();
+                        if (target_user_id === currentUserId) {
+                            checkSession();
+                        }
+
+                    } catch (err) {
+                        showToast(err.message, 'error');
+                    }
+                });
+            }
+        });
+
+        // --- ADMIN USER MANAGEMENT DIRECTORY HANDLERS ---
+        async function fetchAdminUsers() {
+            if (role !== 'admin') return;
+            try {
+                const res = await apiFetch('/api/admin/users');
+                if (!res.ok) throw new Error("Could not download user credentials directory");
+                const data = await res.json();
+                currentAdminUserList = data.users || [];
+                renderAdminUsersTable(currentAdminUserList);
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function renderAdminUsersTable(usersList) {
+            const tableBody = document.getElementById('admin-users-body');
+            if (!tableBody) return;
+            tableBody.innerHTML = '';
+
+            if (usersList.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-400 italic">No registered users matched your criteria.</td></tr>`;
+                return;
+            }
+
+            usersList.forEach(u => {
+                const avatar = u.avatar || 'default';
+                let avatarIcon = 'fa-user text-gray-400 bg-gray-100';
+                if (avatar === 'guide') avatarIcon = 'fa-compass text-green-600 bg-green-50';
+                else if (avatar === 'chef') avatarIcon = 'fa-utensils text-yellow-600 bg-yellow-50';
+                else if (avatar === 'explorer') avatarIcon = 'fa-hiking text-blue-600 bg-blue-50';
+                else if (avatar === 'manager') avatarIcon = 'fa-hotel text-purple-600 bg-purple-50';
+
+                // Badges chips
+                let badgeChips = '';
+                if (u.badges && u.badges.length > 0) {
+                    u.badges.forEach(b => {
+                        let icon = 'fa-medal';
+                        let badgeColor = 'text-yellow-600 bg-yellow-50 border-yellow-200';
+                        if (b === 'Scholar') {
+                            icon = 'fa-graduation-cap';
+                            badgeColor = 'text-blue-600 bg-blue-50 border-blue-200';
+                        } else if (b === 'Explorer') {
+                            icon = 'fa-compass';
+                            badgeColor = 'text-green-600 bg-green-50 border-green-200';
+                        } else if (b === 'Master') {
+                            icon = 'fa-trophy';
+                            badgeColor = 'text-purple-600 bg-purple-50 border-purple-200';
+                        }
+                        badgeChips += `
+                            <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full border text-[9px] font-bold ${badgeColor} mr-1 mb-1">
+                                <i class="fas ${icon} text-[8px]"></i> ${b}
+                            </span>
+                        `;
+                    });
+                } else {
+                    badgeChips = '<span class="text-[10px] text-gray-400 italic">None</span>';
+                }
+
+                // CV Link status badge
+                const cvBadge = u.cv_url 
+                    ? `<a href="#" onclick="showToast('Admin opening mock file: ${u.cv_url}'); return false;" class="text-xs text-brand-accent hover:underline flex items-center gap-1 mt-1 font-semibold"><i class="fas fa-file-pdf"></i> View Submitted CV</a>`
+                    : '<span class="text-[10px] text-gray-400 italic block mt-1">No CV uploaded</span>';
+
+                const roleBadge = u.role === 'admin' 
+                    ? '<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Admin</span>'
+                    : '<span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">User</span>';
+
+                tableBody.innerHTML += `
+                    <tr class="hover:bg-gray-50/50 transition-colors">
+                        <td class="p-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center border ${avatarIcon}">
+                                    <i class="fas ${avatarIcon.split(' ')[1]} text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-brand-dark">${u.first_name} ${u.last_name}</h4>
+                                    <p class="text-xs text-gray-400 font-mono">${u.id}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-3">
+                            <div class="text-xs text-gray-700">${u.email}</div>
+                            <div class="text-[10px] text-gray-400 font-mono mt-0.5">Password Key: <span class="bg-gray-100 px-1 py-0.5 rounded border text-brand-dark font-bold">${u.password_hash}</span></div>
+                            <div class="mt-1.5 flex gap-1.5 items-center">${roleBadge} ${u.status ? `<span class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">${u.status}</span>` : ''}</div>
+                        </td>
+                        <td class="p-3">
+                            <div class="text-xs font-semibold text-brand-youth flex items-center gap-1"><i class="fas fa-bolt"></i> ${u.xp || 0} XP</div>
+                            <div class="text-xs text-gray-500 font-bold mt-0.5">Level ${u.level || 1}</div>
+                            ${cvBadge}
+                        </td>
+                        <td class="p-3 max-w-[200px] break-words">
+                            <div class="flex flex-wrap">${badgeChips}</div>
+                        </td>
+                        <td class="p-3">
+                            <button onclick="openAdminEditUserModal('${u.id}')" class="text-xs font-bold text-brand-dark bg-brand-soft hover:bg-brand-accent hover:text-brand-dark px-3 py-1.5 rounded-lg border border-brand-accent/20 transition-all flex items-center gap-1">
+                                <i class="fas fa-user-edit"></i> Master Control
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterAdminUsers() {
+            const query = document.getElementById('admin-user-search').value.toLowerCase().trim();
+            if (!query) {
+                renderAdminUsersTable(currentAdminUserList);
+                return;
+            }
+
+            const filtered = currentAdminUserList.filter(u => {
+                const fullName = `${u.first_name} ${u.last_name}`.toLowerCase();
+                const email = u.email.toLowerCase();
+                const id = u.id.toLowerCase();
+                return fullName.includes(query) || email.includes(query) || id.includes(query);
+            });
+            renderAdminUsersTable(filtered);
+        }
+
+        // --- MASTER USER ACCOUNT POPUP MODAL ---
+        function openAdminEditUserModal(userId) {
+            const user = currentAdminUserList.find(u => u.id === userId);
+            if (!user) {
+                showToast("Account details not found!", "error");
+                return;
+            }
+
+            // Fill popup fields
+            document.getElementById('ae-user-id').value = user.id;
+            document.getElementById('ae-user-name-title').innerText = `${user.first_name} ${user.last_name}`;
+            document.getElementById('ae-first-name').value = user.first_name;
+            document.getElementById('ae-last-name').value = user.last_name;
+            document.getElementById('ae-email').value = user.email;
+            document.getElementById('ae-password').value = user.password_hash;
+            document.getElementById('ae-status').value = user.status || 'Graduate';
+            document.getElementById('ae-role').value = user.role || 'user';
+            document.getElementById('ae-xp').value = user.xp || 0;
+            document.getElementById('ae-level').value = user.level || 1;
+
+            // Set up Avatar Preview inside admin modal
+            const avatar = user.avatar || 'default';
+            window.aeAvatarValue = avatar;
+            
+            const aeImg = document.getElementById('ae-avatar-preview-img');
+            const aeIcon = document.getElementById('ae-avatar-preview-icon');
+            
+            if (avatar.startsWith('data:')) {
+                if (aeImg) {
+                    aeImg.src = avatar;
+                    aeImg.classList.remove('hidden');
+                }
+                if (aeIcon) {
+                    aeIcon.classList.add('hidden');
+                }
+            } else {
+                if (aeImg) {
+                    aeImg.classList.add('hidden');
+                    aeImg.src = '';
+                }
+                if (aeIcon) {
+                    let avatarClass = 'fa-user text-gray-400';
+                    if (avatar === 'guide') avatarClass = 'fa-compass text-brand-dark';
+                    else if (avatar === 'chef') avatarClass = 'fa-utensils text-brand-dark';
+                    else if (avatar === 'explorer') avatarClass = 'fa-hiking text-brand-dark';
+                    else if (avatar === 'manager') avatarClass = 'fa-hotel text-brand-dark';
+                    aeIcon.className = `fas ${avatarClass} text-xl`;
+                    aeIcon.classList.remove('hidden');
+                }
+            }
+
+            // Checked badges
+            const badges = user.badges || [];
+            document.getElementById('ae-badge-explorer').checked = badges.includes('Explorer');
+            document.getElementById('ae-badge-scholar').checked = badges.includes('Scholar');
+            document.getElementById('ae-badge-master').checked = badges.includes('Master');
+
+            document.getElementById('admin-edit-user-modal').classList.replace('modal-inactive', 'modal-active');
+        }
+
+        function closeAdminEditUserModal() {
+            document.getElementById('admin-edit-user-modal').classList.replace('modal-active', 'modal-inactive');
+        }
+
+        // --- ADMIN DELETE ACCOUNT TRIGGER ---
+        async function deleteUserByAdmin() {
+            const targetId = document.getElementById('ae-user-id').value;
+            const userName = document.getElementById('ae-user-name-title').innerText;
+            const currentUserId = getUserIdFromHeader();
+
+            if (targetId === currentUserId) {
+                showToast("You cannot delete your own logged-in admin account!", "error");
+                return;
+            }
+
+            const confirmed = confirm(`CRITICAL WARNING:\nAre you absolutely sure you want to permanently delete the account of ${userName}?\n\nThis will instantly remove their user profile, progress history, CV credentials, and submitted job applications. This operation is irreversible!`);
+            if (!confirmed) return;
+
+            try {
+                const res = await apiFetch(`/api/admin/users/${targetId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.error || "Failed to delete user account");
+                }
+
+                showToast(`Successfully deleted the user account of ${userName}!`);
+                closeAdminEditUserModal();
+                fetchAdminUsers(); // Reload table
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // --- AUTH FORMS SUBMIT LISTENERS ---
+        document.getElementById('form-login').onsubmit = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const res = await apiFetch('/api/auth/login', {
+                    method: 'POST', 
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                token = data.token; 
+                localStorage.setItem('jwt_token', token);
+                await checkSession(); 
+                closeLoginModal(); 
+                showToast('Welcome back to your Tourism Journey!');
+            } catch (err) { 
+                showToast(err.message, 'error'); 
+            }
+        };
+
+        document.getElementById('form-register').onsubmit = async (e) => {
+            e.preventDefault();
+            const first_name = document.getElementById('reg-fname').value;
+            const last_name = document.getElementById('reg-lname').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            try {
+                const res = await apiFetch('/api/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password, first_name, last_name, status: 'Graduate' })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                token = data.token;
+                localStorage.setItem('jwt_token', token);
+                await checkSession();
+                closeLoginModal();
+                showToast('Welcome aboard! Account created successfully.');
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        };
+
+        // --- OPPORTUNITIES FEED WITH SKELETON LOADING ---
+        function showJobsSkeleton() {
+            const tbody = document.getElementById('jobs-table-body');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                tbody.innerHTML += `
+                    <tr class="animate-pulse border-b">
+                        <td class="p-4"><div class="h-4 bg-gray-200 rounded w-2/3"></div></td>
+                        <td class="p-4"><div class="h-4 bg-gray-200 rounded w-1/2"></div></td>
+                        <td class="p-4"><div class="h-4 bg-gray-200 rounded w-1/3"></div></td>
+                        <td class="p-4"><div class="h-6 bg-gray-200 rounded-full w-16"></div></td>
+                        <td class="p-4"><div class="h-8 bg-gray-200 rounded w-20"></div></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function fetchJobs() {
+            const tbody = document.getElementById('jobs-table-body');
+            showJobsSkeleton();
+            try {
+                const type = document.getElementById('filter-type').value;
+                const loc = document.getElementById('filter-loc').value;
+                const params = new URLSearchParams();
+                if (type) params.append('type', type);
+                if (loc) params.append('location', loc);
+
+                const res = await apiFetch('/api/jobs?' + params.toString());
+                const data = await res.json();
+                tbody.innerHTML = '';
+                
+                if (!data.jobs || data.jobs.length === 0) {
+                    return tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">No career opportunities found matching filters.</td></tr>`;
+                }
+
+                data.jobs.forEach(j => {
+                    let isApplied = false;
+                    if (token && window.useMockMode) {
+                        const db = window.getMockDB();
+                        const userId = token.startsWith('mock-jwt-') ? token.substring('mock-jwt-'.length) : null;
+                        isApplied = db.applications.some(a => a.user_id === userId && a.job_id === j.id);
+                    } else if (appliedJobIds.includes(j.id)) {
+                        isApplied = true;
+                    }
+
+                    const btnHtml = isApplied
+                        ? `<button disabled class="text-xs font-bold bg-green-100 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed flex items-center gap-1 shadow-sm"><i class="fas fa-check"></i> Applied</button>`
+                        : `<button onclick="applyToJob('${j.id}')" class="text-xs font-bold bg-brand-accent hover:bg-yellow-500 text-brand-dark px-4 py-2 rounded-lg transition-all shadow-sm">Apply Now</button>`;
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-50/50 border-b transition-colors">
+                            <td class="p-4 font-bold text-brand-dark">
+                                ${j.title}
+                                <div class="text-[10px] text-gray-400 font-normal mt-0.5">${j.qualifications || 'No qualifications needed'}</div>
+                            </td>
+                            <td class="p-4 text-gray-600 font-medium">${j.company}</td>
+                            <td class="p-4 text-gray-500 text-xs"><i class="fas fa-map-marker-alt text-brand-accent mr-1"></i>${j.location}</td>
+                            <td class="p-4"><span class="bg-brand-soft text-brand-dark px-2.5 py-1 rounded text-xs font-semibold border border-brand-accent/20">${j.type}</span></td>
+                            <td class="p-4">${btnHtml}</td>
+                        </tr>`;
+                });
+            } catch (e) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-500 font-semibold"><i class="fas fa-exclamation-triangle mr-2"></i>Failed to fetch opportunities</td></tr>`; 
+            }
+        }
+
+        async function applyToJob(id) {
+            if (!token) return showToast('Please sign in or register before applying to roles!', 'error');
+            try {
+                const res = await apiFetch('/api/jobs/apply', { 
+                    method: 'POST', 
+                    body: JSON.stringify({ job_id: id }) 
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                appliedJobIds.push(id);
+                showToast('Congratulations! Your application has been submitted safely.');
+                fetchJobs();
+                await checkSession();
+            } catch (e) { 
+                showToast(e.message, 'error'); 
+            }
+        }
+
+        // --- ADMINISTRATIVE CONSOLE CONTROLS ---
+        async function fetchAdminJobs() {
+            try {
+                const res = await apiFetch('/api/jobs');
+                const data = await res.json();
+                const tbody = document.getElementById('admin-jobs-body');
+                tbody.innerHTML = '';
+                
+                if (!data.jobs || data.jobs.length === 0) {
+                    return tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-gray-400">No active job listings</td></tr>`;
+                }
+
+                data.jobs.forEach(j => {
+                    tbody.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50/60 transition-colors">
+                            <td class="p-3 font-bold text-brand-dark">${j.title}</td>
+                            <td class="p-3 font-medium text-gray-600">${j.company}</td>
+                            <td class="p-3"><button onclick="deleteJob('${j.id}')" class="text-red-600 hover:text-red-800 text-xs font-bold transition-colors"><i class="fas fa-trash-alt mr-1"></i>Delete</button></td>
+                        </tr>`;
+                });
+            } catch (err) {
+                console.error("Admin Jobs Error: ", err);
+            }
+        }
+        
+        async function fetchAdminApps() {
+            try {
+                const res = await apiFetch('/api/admin/applications');
+                const data = await res.json();
+                const tbody = document.getElementById('admin-apps-body');
+                tbody.innerHTML = '';
+
+                if (!data.applications || data.applications.length === 0) {
+                    return tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-400">No applications received yet</td></tr>`;
+                }
+
+                data.applications.forEach(a => {
+                    tbody.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50/60 transition-colors">
+                            <td class="p-3">
+                                <div class="font-bold text-brand-dark">${a.first_name} ${a.last_name}</div>
+                                <div class="text-[10px] text-gray-400 font-normal">${a.email}</div>
+                            </td>
+                            <td class="p-3">
+                                <div class="font-semibold text-gray-700">${a.job_title}</div>
+                                <div class="text-[10px] text-gray-400 font-normal">${a.job_company}</div>
+                            </td>
+                            <td class="p-3"><a href="${a.cv_url_snapshot || '#'}" class="text-blue-600 hover:text-blue-800 underline font-semibold flex items-center gap-1 text-xs" target="_blank"><i class="fas fa-file-pdf"></i> View Snapshot CV</a></td>
+                            <td class="p-3">
+                                <select onchange="updateAppStatus('${a.id}', this.value)" class="border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs bg-white focus:outline-none focus:border-brand-accent font-medium text-gray-700 shadow-sm">
+                                    <option value="pending" ${a.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="interviewing" ${a.status === 'interviewing' ? 'selected' : ''}>Interviewing</option>
+                                    <option value="accepted" ${a.status === 'accepted' ? 'selected' : ''}>Accepted</option>
+                                    <option value="rejected" ${a.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                                </select>
+                            </td>
+                        </tr>`;
+                });
+            } catch (e) { 
+                console.error("Admin ATS Error: ", e); 
+            }
+        }
+
+        document.getElementById('admin-post-job-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementById('aj-title').value,
+                company: document.getElementById('aj-company').value,
+                location: document.getElementById('aj-loc').value,
+                type: document.getElementById('aj-type').value,
+                salary: document.getElementById('aj-salary').value,
+                qualifications: document.getElementById('aj-qual').value
+            };
+            try {
+                const res = await apiFetch('/api/admin/jobs', { 
+                    method: 'POST', 
+                    body: JSON.stringify(payload) 
+                });
+                if (!res.ok) throw new Error('Failed to post the opportunity');
+                showToast('Success! Opportunity has been created successfully.');
+                document.getElementById('admin-post-job-form').reset();
+                fetchAdminJobs();
+            } catch (e) { 
+                showToast(e.message, 'error'); 
+            }
+        };
+
+        async function deleteJob(id) {
+            if (!confirm('Are you absolute sure you want to delete this job listing? This action cannot be undone.')) return;
+            try {
+                const res = await apiFetch(`/api/admin/jobs/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Could not delete');
+                showToast('Opportunity has been removed successfully.');
+                fetchAdminJobs();
+                fetchJobs();
+            } catch (e) {
+                showToast(e.message, 'error');
+            }
+        }
+
+        async function updateAppStatus(id, status) {
+            try {
+                const res = await apiFetch('/api/admin/applications/status', { 
+                    method: 'POST', 
+                    body: JSON.stringify({ application_id: id, status }) 
+                });
+                if (!res.ok) throw new Error('Could not update application status');
+                showToast('Status updated successfully!');
+                fetchAdminApps();
+            } catch (e) {
+                showToast(e.message, 'error');
+            }
+        }
+
+        // --- INTERACTIVE TOURISM LEARNING SIMULATIONS ---
+        const simScenarios = {
+            hotel: {
+                title: "The Overbooked Hotel",
+                desc: "A VIP guest arrives at your luxury resort late at night, but their suite has been accidentally double-booked and is occupied by someone else. The hotel is completely full. What do you do?",
+                options: [
+                    {
+                        text: "Apologize sincerely, offer a complimentary welcome dinner, and arrange a luxury chauffeur to a nearby partner 5-star hotel at your resort's expense, plus a free night voucher for their next stay.",
+                        correct: true,
+                        xp: 50,
+                        feedback: "Excellent! You turned a potential disaster into a loyal customer. Taking extreme ownership and offering immediate premium solutions is the key to luxury hospitality."
+                    },
+                    {
+                        text: "Argue with the guest, explain that the booking system must have glitched, and advise them to contact support or find another hotel on their phone.",
+                        correct: false,
+                        xp: 0,
+                        feedback: "Incorrect. Defensive attitude and shifting blame ruins trust immediately. In hospitality, the guest is always supported."
+                    },
+                    {
+                        text: "Wake up the current guest in the suite and ask them to pack up and move so the VIP can have it.",
+                        correct: false,
+                        xp: 0,
+                        feedback: "Incorrect. You cannot resolve a mistake with one guest by creating a massive inconvenience for another guest."
+                    }
+                ]
+            },
+            safari: {
+                title: "The Flat Tyre Encounter",
+                desc: "While guiding a game drive safari with international guests, you notice a low tire pressure warning, and a minute later the tire goes flat. You are in a reserve area known to have a pride of wild lions nearby. How do you respond?",
+                options: [
+                    {
+                        text: "Instruct everyone to stay fully inside the vehicle, keep quiet, call backup over the radio, and wait for an armed ranger/mechanic team to escort you safely.",
+                        correct: true,
+                        xp: 100,
+                        feedback: "Outstanding! Safety is the #1 rule of adventure tourism and safari guiding. Never leave the vehicle in high-risk zones without backup."
+                    },
+                    {
+                        text: "Hop out immediately with your tire wrench, tell guests to look out for lions, and try to change the tire as quickly as possible.",
+                        correct: false,
+                        xp: 0,
+                        feedback: "Highly Dangerous! Stepping out of the vehicle makes you target-prey for apex predators and endangers everyone in the area."
+                    },
+                    {
+                        text: "Ask the guests to step out and stretch their legs to lighten the load while you jack up the vehicle.",
+                        correct: false,
+                        xp: 0,
+                        feedback: "Extremely Dangerous! Guests should never exit the vehicle in the wild unless in designated safe fenced zones."
+                    }
+                ]
+            },
+            agent: {
+                title: "The Cancelled Flight",
+                desc: "A powerful cyclone has hit Madagascar, causing all incoming and outgoing flights to be cancelled. Your client group is stuck at the airport, panicking about missing their connection back to South Africa. What is your action?",
+                options: [
+                    {
+                        text: "Access the GDS immediately, secure hotel vouchers from the airline, coordinate with local transport to move them to a safe inland lodge, and re-route them on the first available flight.",
+                        correct: true,
+                        xp: 75,
+                        feedback: "Brilliant! Crisis management and proactiveness is what sets elite travel agents apart. You secured comfort and safety during natural events."
+                    },
+                    {
+                        text: "Tell the group that since weather is an Act of God, it's not your agency's fault, and they should queue at the airline's customer service counter themselves.",
+                        correct: false,
+                        xp: 0,
+                        feedback: "Incorrect. Shifting blame and leaving clients stranded without active assistance destroys your agency's reputation and trust."
+                    }
+                ]
+            }
+        };
+
+        function runSimulation(id) {
+            const data = simScenarios[id];
+            if (!data) return;
+            document.getElementById('sim-title').innerText = data.title;
+            document.getElementById('sim-desc').innerText = data.desc;
+            const opts = document.getElementById('sim-options'); 
+            opts.innerHTML = '';
+            data.options.forEach((o, idx) => {
+                opts.innerHTML += `
+                    <button onclick="handleSimAnswer('${id}', ${idx})" class="block w-full text-left p-4 border border-gray-200 rounded-xl hover:bg-yellow-50 hover:border-brand-accent transition-all text-sm font-medium">
+                        ${o.text}
+                    </button>`;
+            });
+            document.getElementById('sim-result').classList.add('hidden');
+            document.getElementById('sim-modal').classList.replace('modal-inactive', 'modal-active');
+        }
+
+        async function handleSimAnswer(simId, optionIdx) {
+            const data = simScenarios[simId];
+            const opt = data.options[optionIdx];
+            const res = document.getElementById('sim-result');
+            res.classList.remove('hidden');
+            
+            if (opt.correct) {
+                res.innerHTML = `
+                    <div class="bg-green-50 border border-green-200 p-4 rounded-xl text-green-800">
+                        <p class="font-bold mb-1"><i class="fas fa-check-circle mr-1"></i> Correct! +${opt.xp} XP</p>
+                        <p class="text-xs">${opt.feedback}</p>
+                    </div>`;
+                fireConfetti();
+                if (token) {
+                    try {
+                        const r = await apiFetch('/api/user/update-xp', {
+                            method: 'POST',
+                            body: JSON.stringify({ xp_earned: opt.xp })
+                        });
+                        if (r.ok) await checkSession();
+                    } catch(e) { console.error(e); }
+                } else {
+                    showToast(`Correct! (Sign in to save this +${opt.xp} XP to your permanent profile)`);
+                }
+            } else {
+                res.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 p-4 rounded-xl text-red-800">
+                        <p class="font-bold mb-1"><i class="fas fa-times-circle mr-1"></i> Not quite right...</p>
+                        <p class="text-xs">${opt.feedback}</p>
+                    </div>`;
+            }
+        }
+
+        function closeSimModal() { 
+            document.getElementById('sim-modal').classList.replace('modal-active', 'modal-inactive'); 
+        }
+
+        function fireConfetti() {
+            for (let i = 0; i < 30; i++) {
+                let conf = document.createElement('div');
+                conf.className = 'animate-confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.animationDuration = Math.random() * 2 + 1 + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 3000);
+            }
+        }
+
+        // --- 10-QUESTION DYNAMIC CAREER MATCH QUIZ ---
+        const quizQuestions = [
+            {
+                q: "Where would you feel most energized?",
+                options: [
+                    { t: "In the pristine wilderness tracking wild cheetahs.", s: "eco" },
+                    { t: "Leading a smooth check-in at a high-end beach hotel lobby.", s: "luxury" },
+                    { t: "Guiding a thrilling white-water rafting group.", s: "adventure" },
+                    { t: "Explaining historical secrets of a World Heritage site.", s: "culture" }
+                ]
+            },
+            {
+                q: "What is your strongest superpower?",
+                options: [
+                    { t: "Spotting small animal tracks and bird calls.", s: "eco" },
+                    { t: "Reading people's needs before they even ask.", s: "luxury" },
+                    { t: "Staying cool and leading under extreme physical challenges.", s: "adventure" },
+                    { t: "Storytelling and remembering deep historical trivia.", s: "culture" }
+                ]
+            },
+            {
+                q: "Pick your ideal workspace backdrop:",
+                options: [
+                    { t: "A dense savanna at golden hour.", s: "eco" },
+                    { t: "A polished marble reception desk under crystal chandeliers.", s: "luxury" },
+                    { t: "A steep mountain ridge facing strong winds.", s: "adventure" },
+                    { t: "A quiet museum archive surrounded by centuries-old artifacts.", s: "culture" }
+                ]
+            },
+            {
+                q: "A client is upset about bad weather. What is your strategy?",
+                options: [
+                    { t: "Teach them about how the rain revives the ecosystem and track frogs.", s: "eco" },
+                    { t: "Upgrade them to a suite and bring complimentary warm beverages.", s: "luxury" },
+                    { t: "Switch the itinerary to a challenging indoor climbing wall session.", s: "adventure" },
+                    { t: "Share folklore and ancient myths related to the rain god.", s: "culture" }
+                ]
+            },
+            {
+                q: "Which of these sounds like the most satisfying Saturday?",
+                options: [
+                    { t: "Volunteering at a local marine conservation reserve.", s: "eco" },
+                    { t: "Mastering the art of fine dining presentation.", s: "luxury" },
+                    { t: "Skydiving or trekking a new unexplored trail.", s: "adventure" },
+                    { t: "Exploring historical ruins or attending an indigenous art festival.", s: "culture" }
+                ]
+            },
+            {
+                q: "What kind of books or documentaries do you watch?",
+                options: [
+                    { t: "Our Planet or National Geographic wildlife specials.", s: "eco" },
+                    { t: "Inside the World's Best Hotels or MasterChef.", s: "luxury" },
+                    { t: "Extreme sports, mountaineering, or survival challenges.", s: "adventure" },
+                    { t: "Ancient civilizations, biographies, or archaeological mysteries.", s: "culture" }
+                ]
+            },
+            {
+                q: "How do you handle group dynamics?",
+                options: [
+                    { t: "Quietly observe and point out unique environmental features.", s: "eco" },
+                    { t: "Coordinate tasks smoothly to make everyone feel pampered.", s: "luxury" },
+                    { t: "Take charge enthusiastically to motivate people to test their limits.", s: "adventure" },
+                    { t: "Capture attention with interesting stories and local trivia.", s: "culture" }
+                ]
+            },
+            {
+                q: "What is your primary career goal in tourism?",
+                options: [
+                    { t: "Preserving natural habitats and teaching biodiversity.", s: "eco" },
+                    { t: "Designing world-class guest services and hotel brands.", s: "luxury" },
+                    { t: "Creating thrilling, life-changing outdoor experiences.", s: "adventure" },
+                    { t: "Connecting global travelers to authentic local cultures.", s: "culture" }
+                ]
+            },
+            {
+                q: "Select a dream gift:",
+                options: [
+                    { t: "Professional high-zoom safari binoculars.", s: "eco" },
+                    { t: "A voucher for a five-star dining masterclass.", s: "luxury" },
+                    { t: "Top-tier durable hiking gear or a GoPro camera.", s: "adventure" },
+                    { t: "A rare collection of historical maps and indigenous history.", s: "culture" }
+                ]
+            },
+            {
+                q: "How do you want guests to describe you?",
+                options: [
+                    { t: "An incredibly knowledgeable custodian of nature.", s: "eco" },
+                    { t: "Warm, professional, and flawlessly hospitable.", s: "luxury" },
+                    { t: "An inspiring, courageous, and safe guide.", s: "adventure" },
+                    { t: "An engaging storyteller who brought local culture to life.", s: "culture" }
+                ]
+            }
+        ];
+
+        let qIndex = 0;
+        let quizScores = { eco: 0, luxury: 0, adventure: 0, culture: 0 };
+
+        function startQuiz() { 
+            qIndex = 0;
+            quizScores = { eco: 0, luxury: 0, adventure: 0, culture: 0 };
+            document.getElementById('quiz-intro').classList.add('hidden'); 
+            document.getElementById('quiz-questions').classList.remove('hidden'); 
+            document.getElementById('quiz-result').classList.add('hidden'); 
+            loadQ(); 
+        }
+
+        function loadQ() {
+            if (qIndex >= quizQuestions.length) return endQuiz();
+            const currentQ = quizQuestions[qIndex];
+            document.getElementById('quiz-progress-text').innerText = `Question ${qIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((qIndex + 1) / quizQuestions.length) * 100}%`;
+            document.getElementById('quiz-question-title').innerText = currentQ.q;
+            
+            const optionsDiv = document.getElementById('quiz-options');
+            optionsDiv.innerHTML = '';
+            
+            currentQ.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "block w-full text-left p-4 border border-gray-200 rounded-xl hover:bg-yellow-50 hover:border-brand-accent transition-all text-sm font-medium";
+                btn.innerText = opt.t;
+                btn.onclick = () => {
+                    quizScores[opt.s] = (quizScores[opt.s] || 0) + 1;
+                    qIndex++;
+                    loadQ();
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function endQuiz() {
+            document.getElementById('quiz-questions').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            const sectors = {
+                eco: {
+                    title: "Ecotourism & Safari Guide",
+                    desc: "You are deeply connected to nature and wildlife. Your passion lies in conservation, tracking, and educating visitors on the rich flora and fauna of our beautiful reserves. (Highly recommended career pathways: Safari Guide, Environmental Ranger, Eco-tourism Operator)."
+                },
+                luxury: {
+                    title: "Luxury Hospitality & Hotel Management",
+                    desc: "You thrive in organized, high-class environments where customer satisfaction is paramount. You have a natural charm, diplomacy, and impeccable attention to detail. (Highly recommended career pathways: Hotel Front Desk Manager, Guest Relations Specialist, Resort Supervisor)."
+                },
+                adventure: {
+                    title: "Adventure Tourism & Recreation",
+                    desc: "You are born for action and leadership. You love pushing physical limits and keeping people safe while delivering high-adrenaline thrills. (Highly recommended career pathways: Adventure Tour Guide, Outdoor Instructor, Activities Coordinator)."
+                },
+                culture: {
+                    title: "Cultural Tourism & Heritage Specialist",
+                    desc: "You are a natural-born storyteller who values heritage, history, and community. You love bridging cultures and keeping local traditions alive. (Highly recommended career pathways: Heritage Site Curator, Cultural Historian, Regional Storyteller)."
+                }
+            };
+
+            let maxSector = 'eco';
+            let maxVal = -1;
+            for (let k in quizScores) {
+                if (quizScores[k] > maxVal) {
+                    maxVal = quizScores[k];
+                    maxSector = k;
+                }
+            }
+
+            const match = sectors[maxSector];
+            document.getElementById('quiz-result-title').innerText = match.title;
+            document.getElementById('quiz-result-desc').innerText = match.desc;
+            
+            // Manage claim button status
+            const claimBtn = document.getElementById('quiz-claim-btn');
+            if (currentProfile && currentProfile.badges && currentProfile.badges.includes('Scholar')) {
+                claimBtn.disabled = true;
+                claimBtn.innerText = 'Scholar Badge & XP Already Claimed';
+                claimBtn.className = "bg-gray-100 text-gray-400 border border-gray-200 px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest block mx-auto cursor-not-allowed mb-4 shadow-sm";
+            } else {
+                claimBtn.disabled = false;
+                claimBtn.innerText = 'Claim +100 XP & Scholar Badge';
+                claimBtn.className = "bg-brand-dark text-white px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-brand-accent hover:text-brand-dark transition-colors shadow-md mb-4 block mx-auto";
+            }
+
+            fireConfetti();
+        }
+
+        async function claimQuizXP() {
+            if (!token) {
+                showToast('Please sign in or register to claim your Scholar Badge and XP!', 'error');
+                return;
+            }
+            try {
+                const button = document.getElementById('quiz-claim-btn');
+                button.disabled = true;
+                button.innerText = 'Claiming...';
+                
+                const res = await apiFetch('/api/user/update-xp', {
+                    method: 'POST',
+                    body: JSON.stringify({ xp_earned: 100, new_badge: 'Scholar' })
+                });
+                
+                if (!res.ok) throw new Error('Could not claim reward');
+                
+                showToast('Success! You gained +100 XP and unlocked the Scholar Badge!');
+                fireConfetti();
+                await checkSession();
+                
+                button.innerText = 'Claimed!';
+                button.className = "bg-gray-100 text-gray-400 border border-gray-200 px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest block mx-auto cursor-not-allowed mb-4 shadow-sm";
+            } catch(e) {
+                showToast(e.message, 'error');
+                document.getElementById('quiz-claim-btn').disabled = false;
+                document.getElementById('quiz-claim-btn').innerText = 'Claim +100 XP & Scholar Badge';
+            }
+        }
+
+        function resetQuiz() { 
+            qIndex = 0; 
+            document.getElementById('quiz-result').classList.add('hidden'); 
+            startQuiz(); 
+        }
+
+        // --- FILE UPLOAD LOGIC ---
+        document.getElementById('cv-upload-form').onsubmit = async (e) => {
+            e.preventDefault(); 
+            if (!token) return showToast('Please sign in first to upload files.', 'error');
+            
+            const file = document.getElementById('cv-file-input').files[0];
+            if (!file) return showToast('No file selected. Please choose a PDF or Word document.', 'error');
+
+            const btn = document.getElementById('cv-upload-btn');
+            btn.innerHTML = '<i class="fas fa-spinner animate-spin mr-1"></i> Uploading...';
+            btn.disabled = true;
+
+            const fd = new FormData(); 
+            fd.append('cv', file);
+            
+            try {
+                const res = await apiFetch('/api/cv/upload', { method: 'POST', body: fd });
+                if (!res.ok) throw new Error('Could not upload file');
+                
+                showToast('Success! Your CV has been successfully uploaded to your profile.');
+                await checkSession();
+            } catch(e) { 
+                showToast('File upload failed. Ensure the server is online.', 'error'); 
+            } finally {
+                btn.innerHTML = 'Upload to Profile';
+                btn.disabled = false;
+            }
+        };
+
+        // --- PAGE INITIALIZATION ---
+        checkSession();
+    </script>
+</body>
+</html>

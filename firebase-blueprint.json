@@ -1,0 +1,187 @@
+{
+  "entities": {
+    "User": {
+      "collection": "users",
+      "fields": {
+        "id": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string" },
+        "profileStatus": { "type": "string" },
+        "careerInterest": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "StudentProfile": {
+      "collection": "studentProfiles",
+      "fields": {
+        "userId": { "type": "string" },
+        "dateOfBirth": { "type": "string" },
+        "southAfricanIdConfirmed": { "type": "boolean" },
+        "school": { "type": "string" },
+        "matricYear": { "type": "string" },
+        "studiedTourism": { "type": "boolean" },
+        "location": { "type": "string" },
+        "criminalRecordDeclaration": { "type": "boolean" },
+        "careerPath": { "type": "string" },
+        "eligibilityStatus": { "type": "string" },
+        "profileCompletion": { "type": "number" }
+      }
+    },
+    "Application": {
+      "collection": "applications",
+      "fields": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "motivation": { "type": "string" },
+        "education": { "type": "map" },
+        "eligibilityAnswers": { "type": "map" },
+        "cvFileUrl": { "type": "string" },
+        "cvFileName": { "type": "string" },
+        "status": { "type": "string" },
+        "submittedAt": { "type": "string" },
+        "reviewedAt": { "type": "string" },
+        "reviewedBy": { "type": "string" },
+        "adminNotes": { "type": "string" }
+      }
+    },
+    "Programme": {
+      "collection": "programmes",
+      "fields": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "year": { "type": "number" },
+        "maxParticipants": { "type": "number" },
+        "active": { "type": "boolean" },
+        "applicationOpen": { "type": "string" },
+        "applicationClose": { "type": "string" }
+      }
+    },
+    "Participant": {
+      "collection": "participants",
+      "fields": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "applicationId": { "type": "string" },
+        "programmeId": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "status": { "type": "string" },
+        "startDate": { "type": "string" },
+        "graduationStatus": { "type": "string" },
+        "graduationDate": { "type": "string" },
+        "ceremonyDate": { "type": "string" },
+        "ceremonyVenue": { "type": "string" },
+        "ceremonyAttendance": { "type": "string" }
+      }
+    },
+    "Milestone": {
+      "collection": "milestones",
+      "fields": {
+        "id": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "required": { "type": "boolean" },
+        "order": { "type": "number" }
+      }
+    },
+    "ParticipantProgress": {
+      "collection": "participantProgress",
+      "fields": {
+        "id": { "type": "string" },
+        "participantId": { "type": "string" },
+        "milestoneId": { "type": "string" },
+        "status": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "verifiedBy": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "Sponsorship": {
+      "collection": "sponsorships",
+      "fields": {
+        "id": { "type": "string" },
+        "participantId": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "supportType": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" },
+        "amount": { "type": "number" },
+        "approvedBy": { "type": "string" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "JobShadow": {
+      "collection": "jobShadows",
+      "fields": {
+        "id": { "type": "string" },
+        "participantId": { "type": "string" },
+        "date": { "type": "string" },
+        "pickupLocation": { "type": "string" },
+        "pickupTime": { "type": "string" },
+        "returnTime": { "type": "string" },
+        "location": { "type": "string" },
+        "host": { "type": "string" },
+        "transportIncluded": { "type": "boolean" },
+        "lunchIncluded": { "type": "boolean" },
+        "attendance": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "Resource": {
+      "collection": "resources",
+      "fields": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "description": { "type": "string" },
+        "officialUrl": { "type": "string" },
+        "content": { "type": "string" },
+        "lastReviewed": { "type": "string" },
+        "active": { "type": "boolean" }
+      }
+    },
+    "Partner": {
+      "collection": "partners",
+      "fields": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "location": { "type": "string" },
+        "contact": { "type": "string" },
+        "active": { "type": "boolean" }
+      }
+    },
+    "Opportunity": {
+      "collection": "opportunities",
+      "fields": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "partnerId": { "type": "string" },
+        "careerPath": { "type": "string" },
+        "type": { "type": "string" },
+        "location": { "type": "string" },
+        "requirements": { "type": "string" },
+        "active": { "type": "boolean" }
+      }
+    },
+    "SalesIncentive": {
+      "collection": "salesIncentives",
+      "fields": {
+        "id": { "type": "string" },
+        "product": { "type": "string" },
+        "category": { "type": "string" },
+        "commissionType": { "type": "string" },
+        "commissionValue": { "type": "number" },
+        "active": { "type": "boolean" },
+        "terms": { "type": "string" }
+      }
+    }
+  }
+}

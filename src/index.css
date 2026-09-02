@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+:root {
+  --heading-color: #17241b;
+  --body-color: #4a544d;
+  --accent-color: #890c25;
+  --accent-hover: #6f091d;
+  --accent-light: #fbebee;
+  --forest-green: #1d3324;
+  --forest-green-dark: #122117;
+  --gold-color: #c5a866;
+  --sand-bg: #f5f2eb;
+  --sand-card: #ffffff;
+  --sand-border: #e0dbce;
+  --heading-font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --body-font: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--body-color);
+  background-color: #f8f7f3;
+  background-image: 
+    linear-gradient(rgba(248, 247, 243, 0.86), rgba(248, 247, 243, 0.92)),
+    url('https://images.pexels.com/photos/21881554/pexels-photo-21881554.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--heading-font);
+  color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Force white headings and titles on any dark, green, black or photographic backgrounds globally */
+.bg-\[\#0f3024\] h1, .bg-\[\#0f3024\] h2, .bg-\[\#0f3024\] h3, .bg-\[\#0f3024\] h4, .bg-\[\#0f3024\] h5, .bg-\[\#0f3024\] h6,
+.bg-\[\#17372A\] h1, .bg-\[\#17372A\] h2, .bg-\[\#17372A\] h3, .bg-\[\#17372A\] h4, .bg-\[\#17372A\] h5, .bg-\[\#17372A\] h6,
+.bg-black h1, .bg-black h2, .bg-black h3, .bg-black h4, .bg-black h5, .bg-black h6,
+.dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4, .dark-section h5, .dark-section h6,
+.bg-\[\#0f3024\] .font-serif, .bg-\[\#17372A\] .font-serif, .bg-black .font-serif, .dark-section .font-serif {
+  color: #FFFFFF !important;
+}
+
+/* Also ensure helper text or subtitles on dark backgrounds are readable light colors */
+.bg-\[\#0f3024\] p, .bg-\[\#17372A\] p, .bg-black p, .dark-section p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Make sure we don't override buttons or explicit link colors inside dark sections if they are custom styled */
+.bg-\[\#0f3024\] button h1, .bg-\[\#0f3024\] button h2, .bg-\[\#0f3024\] button h3, .bg-\[\#0f3024\] button h4,
+.bg-\[\#17372A\] button h1, .bg-\[\#17372A\] button h2, .bg-\[\#17372A\] button h3, .bg-\[\#17372A\] button h4,
+.bg-black button h1, .bg-black button h2, .bg-black button h3, .bg-black button h4 {
+  color: inherit !important;
+}
+
+/* Accent Color Utilities */
+.td_accent_color {
+  color: var(--accent-color);
+}
+
+.td_accent_bg {
+  background-color: var(--accent-color);
+}
+
+.td_heading_color {
+  color: var(--heading-color);
+}
+
+/* Button Component styles */
+.td_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.td_btn_in {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.td_btn_accent .td_btn_in {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(137, 12, 37, 0.2);
+}
+
+.td_btn_accent:hover .td_btn_in {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(137, 12, 37, 0.3);
+}
+
+.td_btn_dark .td_btn_in {
+  background-color: var(--forest-green);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(29, 51, 36, 0.2);
+}
+
+.td_btn_dark:hover .td_btn_in {
+  background-color: var(--forest-green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(18, 33, 23, 0.3);
+}
+
+.td_btn_outline .td_btn_in {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--heading-color);
+  border: 1.5px solid var(--sand-border);
+  backdrop-blur: 4px;
+}
+
+.td_btn_outline:hover .td_btn_in {
+  border-color: var(--forest-green);
+  color: var(--forest-green);
+  background-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Clean Editorial Card */
+.td_editorial_card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--sand-border);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.td_editorial_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(23, 36, 27, 0.08);
+  border-color: var(--gold-color);
+}
+
+/* Subtle Label Pill */
+.td_section_subtitle_up {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 6px;
+}
