@@ -6,9 +6,10 @@ import {
 
 interface PublicGuidePathProps {
   onNavigate: (view: string) => void;
+  onOpenApplyModal?: () => void;
 }
 
-export default function PublicGuidePath({ onNavigate }: PublicGuidePathProps) {
+export default function PublicGuidePath({ onNavigate, onOpenApplyModal }: PublicGuidePathProps) {
   const [activeTab, setActiveTab] = useState<'todo' | 'duration' | 'cost' | 'forms' | 'contact'>('todo');
 
   return (
@@ -268,18 +269,29 @@ export default function PublicGuidePath({ onNavigate }: PublicGuidePathProps) {
 
           {/* Sidebar CTA Box */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#17372A] text-white p-8 rounded-xl shadow-sm space-y-6 dark-section">
+            <div className="bg-[#17372A] text-white p-8 rounded-xl shadow-sm space-y-4 dark-section">
               <h3 className="font-serif text-xl font-bold text-white">Start your guiding career today</h3>
               <p className="text-xs text-white/80 font-light leading-relaxed">
                 Verify your qualifications and apply for the 2026 Viemma Academy Program cohort.
               </p>
-              <button 
-                onClick={() => onNavigate('eligibility-checker')}
-                className="w-full py-3.5 bg-[#C9A227] hover:bg-white text-[#17372A] text-xs font-bold uppercase tracking-widest transition-all rounded-lg shadow-sm cursor-pointer text-center block"
-                id="guide-sidebar-eligibility"
-              >
-                Check Eligibility
-              </button>
+              <div className="space-y-2 pt-2">
+                {onOpenApplyModal && (
+                  <button 
+                    onClick={onOpenApplyModal}
+                    className="w-full py-3.5 bg-[#C9A227] hover:bg-white text-[#17372A] text-xs font-bold uppercase tracking-widest transition-all rounded-lg shadow-sm cursor-pointer text-center block"
+                    id="guide-sidebar-apply"
+                  >
+                    Apply for 2026 Cohort
+                  </button>
+                )}
+                <button 
+                  onClick={() => onNavigate('eligibility-checker')}
+                  className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-widest transition-all rounded-lg cursor-pointer text-center block"
+                  id="guide-sidebar-eligibility"
+                >
+                  Check Eligibility
+                </button>
+              </div>
             </div>
 
             <div className="bg-white border border-stone-200 p-6 rounded-xl shadow-xs space-y-4">

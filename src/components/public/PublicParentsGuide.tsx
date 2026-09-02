@@ -3,9 +3,10 @@ import { Users, ShieldCheck, Award, Phone, CheckCircle2, Heart, ExternalLink, Ar
 
 interface PublicParentsGuideProps {
   onNavigate: (view: string) => void;
+  onOpenApplyModal?: () => void;
 }
 
-export default function PublicParentsGuide({ onNavigate }: PublicParentsGuideProps) {
+export default function PublicParentsGuide({ onNavigate, onOpenApplyModal }: PublicParentsGuideProps) {
   const faqs = [
     {
       q: "Is a career in South African tourism stable or erratic?",
@@ -133,9 +134,18 @@ export default function PublicParentsGuide({ onNavigate }: PublicParentsGuidePro
             We invite parents, guardians, and community leaders to reach out directly with questions regarding our 2026 intake process, verification steps, and sponsorship commitments.
           </p>
           <div className="pt-4 flex flex-wrap justify-center gap-4">
+            {onOpenApplyModal && (
+              <button
+                onClick={onOpenApplyModal}
+                className="px-8 py-3.5 bg-[#C9A227] text-[#17372A] hover:bg-white text-xs font-bold uppercase tracking-[0.16em] transition-all rounded-lg cursor-pointer shadow-sm"
+                id="parents-apply-btn"
+              >
+                Apply for 2026 Intake
+              </button>
+            )}
             <a 
               href="mailto:info@viemmatours.africa?subject=Parent%20Enquiry%20-%20Viemma%20Tours%20Academy"
-              className="px-8 py-3.5 bg-[#C9A227] text-[#17372A] hover:bg-white text-xs font-bold uppercase tracking-[0.16em] transition-all rounded-lg inline-flex items-center gap-2 cursor-pointer shadow-sm"
+              className="px-8 py-3.5 bg-white/10 text-white hover:bg-white hover:text-[#17372A] border border-white/30 text-xs font-bold uppercase tracking-[0.16em] transition-all rounded-lg inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Email Admissions Advisory</span>
             </a>

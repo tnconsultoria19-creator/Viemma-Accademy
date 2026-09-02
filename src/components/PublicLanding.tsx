@@ -20,9 +20,9 @@ interface PublicLandingProps {
 export default function PublicLanding({ currentView, resources, onNavigate, onOpenApplyModal }: PublicLandingProps) {
   switch (currentView) {
     case 'driver-path':
-      return <PublicDriverPath onNavigate={onNavigate} />;
+      return <PublicDriverPath onNavigate={onNavigate} onOpenApplyModal={onOpenApplyModal} />;
     case 'guide-path':
-      return <PublicGuidePath onNavigate={onNavigate} />;
+      return <PublicGuidePath onNavigate={onNavigate} onOpenApplyModal={onOpenApplyModal} />;
     case 'how-it-works':
       return <PublicHowItWorks onNavigate={onNavigate} onOpenApplyModal={onOpenApplyModal} />;
     case 'eligibility-checker':
@@ -30,11 +30,11 @@ export default function PublicLanding({ currentView, resources, onNavigate, onOp
     case 'resources-faq':
       return <PublicResourcesFaq resources={resources} onNavigate={onNavigate} />;
     case 'funding':
-      return <PublicFundingResources onNavigate={onNavigate} resources={resources} />;
+      return <PublicFundingResources onNavigate={onNavigate} resources={resources} onOpenApplyModal={onOpenApplyModal} />;
     case 'business':
-      return <PublicStartBusiness onNavigate={onNavigate} />;
+      return <PublicStartBusiness onNavigate={onNavigate} onOpenApplyModal={onOpenApplyModal} />;
     case 'parents':
-      return <PublicParentsGuide onNavigate={onNavigate} />;
+      return <PublicParentsGuide onNavigate={onNavigate} onOpenApplyModal={onOpenApplyModal} />;
     case 'home':
     default:
       return (

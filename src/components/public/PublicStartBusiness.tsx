@@ -3,9 +3,10 @@ import { Compass, Lightbulb, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Bu
 
 interface PublicStartBusinessProps {
   onNavigate: (view: string) => void;
+  onOpenApplyModal?: () => void;
 }
 
-export default function PublicStartBusiness({ onNavigate }: PublicStartBusinessProps) {
+export default function PublicStartBusiness({ onNavigate, onOpenApplyModal }: PublicStartBusinessProps) {
   const businessIdeas = [
     {
       title: "Local Walking & Storytelling Tours",
@@ -171,8 +172,9 @@ export default function PublicStartBusiness({ onNavigate }: PublicStartBusinessP
               The Programme
             </button>
             <button
-              onClick={() => onNavigate('application-gateway')}
+              onClick={() => onOpenApplyModal ? onOpenApplyModal() : onNavigate('eligibility-checker')}
               className="px-8 py-3.5 bg-[#C9A227] text-[#17372A] hover:bg-white text-xs font-bold uppercase tracking-[0.16em] transition-all rounded-lg cursor-pointer"
+              id="business-apply-btn"
             >
               Apply for 2026 Cohort
             </button>

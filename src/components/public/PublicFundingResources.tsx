@@ -5,9 +5,10 @@ import { Resource } from '../../types';
 interface PublicFundingResourcesProps {
   onNavigate: (view: string) => void;
   resources?: Resource[];
+  onOpenApplyModal?: () => void;
 }
 
-export default function PublicFundingResources({ onNavigate, resources = [] }: PublicFundingResourcesProps) {
+export default function PublicFundingResources({ onNavigate, resources = [], onOpenApplyModal }: PublicFundingResourcesProps) {
   const fundingSources = [
     {
       title: "CATHSSETA Sector Learnerships",
@@ -198,8 +199,9 @@ export default function PublicFundingResources({ onNavigate, resources = [] }: P
               Check Eligibility (60 Sec)
             </button>
             <button
-              onClick={() => onNavigate('application-gateway')}
+              onClick={() => onOpenApplyModal ? onOpenApplyModal() : onNavigate('eligibility-checker')}
               className="px-8 py-3.5 bg-white/10 hover:bg-white text-white hover:text-[#17372A] border border-white/30 text-xs font-bold uppercase tracking-[0.16em] transition-all rounded-lg cursor-pointer"
+              id="funding-apply-btn"
             >
               Apply for Programme
             </button>
